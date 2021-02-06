@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:news_app_2/pages/article.dart';
 import 'package:news_app_2/pages/article_view.dart';
+import 'package:news_app_2/pages/home.dart'; //For bottomNavigationBarFunction()
 import 'package:http/http.dart' as http;
 
 String category;
@@ -78,10 +79,13 @@ class _Category_NewsState extends State<Category_News> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
+        /*
         appBar: AppBar(
           title: Text("Home News"),
           centerTitle: true,
         ),
+
+         */
 
         body: _loading? Center(
           child: CircularProgressIndicator(),

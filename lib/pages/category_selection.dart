@@ -25,6 +25,7 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Container(
                 child: Stack(
                   children: <Widget>[
+                    Image(image: AssetImage('assets/Business.jpg'),),
                     Text("Business"),
                   ],
                 ),
@@ -38,6 +39,7 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Container(
                 child: Stack(
                   children: <Widget>[
+                    Image(image: AssetImage('assets/Entertainment.jpg'),),
                     Text("Entertainment"),
                   ],
                 ),
@@ -51,6 +53,7 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Container(
                 child: Stack(
                   children: <Widget>[
+                    Image(image: AssetImage('assets/General.jpg'),),
                     Text("General"),
                   ],
                 ),
@@ -64,6 +67,7 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Container(
                 child: Stack(
                   children: <Widget>[
+                    Image(image: AssetImage('assets/Health.jpg'),),
                     Text("Health"),
                   ],
                 ),
@@ -77,6 +81,7 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Container(
                 child: Stack(
                   children: <Widget>[
+                    Image(image: AssetImage('assets/Science.jpg'),),
                     Text("Science"),
                   ],
                 ),
@@ -90,6 +95,7 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Container(
                 child: Stack(
                   children: <Widget>[
+                    Image(image: AssetImage('assets/Sports.jpg'),),
                     Text("Sports"),
                   ],
                 ),
@@ -103,6 +109,7 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Container(
                 child: Stack(
                   children: <Widget>[
+                    Image(image: AssetImage('assets/Technology.jpg'),),
                     Text("Technology"),
                   ],
                 ),
