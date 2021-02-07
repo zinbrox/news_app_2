@@ -5,7 +5,6 @@ import 'package:news_app_2/pages/home.dart';
 import 'package:news_app_2/pages/home_news.dart';
 import 'package:news_app_2/pages/article_view.dart';
 import 'package:news_app_2/pages/category_selection.dart';
-import 'package:news_app_2/pages/category_news.dart';
 import 'package:provider/provider.dart';
 import 'package:news_app_2/blocs/theme.dart';
 import 'package:news_app_2/pages/loginPage.dart';

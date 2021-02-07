@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DarkThemePreference {
   static const THEME_STATUS = "THEMESTATUS";
@@ -33,6 +34,11 @@ class DarkThemeProvider with ChangeNotifier{
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
+      /*
+      textTheme: GoogleFonts.oswaldTextTheme(
+        Theme.of(context).textTheme),
+
+       */
       primarySwatch: Colors.red,
       primaryColor: isDarkTheme ? Colors.black : Colors.white,
 

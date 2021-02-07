@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_2/pages/category_news.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app_2/pages/home.dart';
+import 'package:news_app_2/pages/home_news.dart';
 
 class Category_Selection extends StatefulWidget {
   @override
@@ -25,11 +27,8 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
-                  Image(image: AssetImage('assets/Business.jpg'),),
-                  Text("Business",
-                    style: TextStyle(color: Colors.white,
-                      fontSize: 30.0,
-                    ),
+                  ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Business1.jpeg'),)),
+                  Text("Business", style: GoogleFonts.getFont("Oswald", fontSize: 30.0, color: Colors.white),
                   ),
                 ],
               ),
@@ -42,8 +41,8 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
-                  Image(image: AssetImage('assets/Entertainment.jpg'),),
-                  Text("Entertainment", style: TextStyle(color: Colors.white,),),
+                  ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Entertainment.jpg'),)),
+                  Text("Entertainment", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
                 ],
               ),
             ),
@@ -55,8 +54,8 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
-                  Image(image: AssetImage('assets/General.jpg'),),
-                  Text("General", style: TextStyle(color: Colors.white,),),
+                  ClipRRect(borderRadius: BorderRadius.circular(10.0), child: Image(image: AssetImage('assets/General.jpg'),),),
+                  Text("General", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
                 ],
               ),
             ),
@@ -68,8 +67,8 @@ class _Category_SelectionState extends State<Category_Selection> {
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
-                  Image(image: AssetImage('assets/Health.jpg'),),
-                  Text("Health", style: TextStyle(color: Colors.white,),),
+                  ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Health1.jpg'),),),
+                  Text("Health", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
                 ],
               ),
             ),
@@ -82,8 +81,8 @@ class _Category_SelectionState extends State<Category_Selection> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    Image(image: AssetImage('assets/Science.jpg'),),
-                    Text("Science", style: TextStyle(color: Colors.white,),),
+                    ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Science.jpg'),),),
+                    Text("Science", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
                   ],
                 ),
               ),
@@ -97,8 +96,8 @@ class _Category_SelectionState extends State<Category_Selection> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    Image(image: AssetImage('assets/Sports.jpg'),),
-                    Text("Sports", style: TextStyle(color: Colors.white,),),
+                    ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Sports.jpg'),),),
+                    Text("Sports", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
                   ],
                 ),
               ),
@@ -112,8 +111,8 @@ class _Category_SelectionState extends State<Category_Selection> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    Image(image: AssetImage('assets/Technology.jpg'),),
-                    Text("Technology", style: TextStyle(color: Colors.white,),),
+                    ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Technology.jpg'),),),
+                    Text("Technology", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
                   ],
                 ),
               ),

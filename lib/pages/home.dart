@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app_2/pages/news.dart';
-import 'package:news_app_2/pages/article_view.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_2/pages/category_selection.dart';
 import 'package:news_app_2/pages/home_news.dart';
+import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/settings_page.dart';
 
 
-String type = "Headlines"; //For later combining into single function ** NOT DONE YET **
+String type = "Headlines"; //For combining into single function
+String country = "";
+String category;
+
 
 class Home extends StatefulWidget {
   @override
@@ -17,11 +20,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   int _currentIndex = 0;
+  int _toptabIndex=0;
   final tabNames = ["Headlines", "Categories", "Settings"];
   final tabs = [
     Home_News(),
     Category_Selection(),
     Settings_Page(),
+  ];
+  final toptabs = [
+    Home_News(),
+    Country_News(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -29,19 +37,17 @@ class _HomeState extends State<Home> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(tabNames[_currentIndex].toString()),
+          title: Text(
+              tabNames[_currentIndex].toString(),
+              style: GoogleFonts.getFont('Oswald',
+              fontSize: 25.0,),
+          ),
           centerTitle: true,
           automaticallyImplyLeading: false,
           bottom: tabBarReturn(),
         ),
         bottomNavigationBar: bottomNavigationBarFunction(),
-        body: _currentIndex==0 ?
-        TabBarView(
-          children: [
-            Home_News(),
-            Home_News(),
-          ],
-        ) : tabs[_currentIndex],
+        body: _currentIndex==0 ? toptabs[_toptabIndex]: tabs[_currentIndex],
 
       ),
     );
@@ -81,12 +87,25 @@ class _HomeState extends State<Home> {
 
   Widget tabBarReturn() {
     if(_currentIndex==0)
-    return TabBar(
+    return PreferredSize(
+      preferredSize: Size(30.0, 30.0),
+      child: TabBar(
   tabs: [
-  Text("Worldwide"),
-  Text("India"),
+  Text("Worldwide", style: GoogleFonts.getFont("Oswald", fontSize: 20.0,),),
+  Text("India", style: GoogleFonts.getFont("Oswald", fontSize: 20.0,),),
   ],
-  );
+        onTap: (index){
+      print("TopTab pressed");
+      setState(() {
+        print(index);
+        if(index == 1)
+          country = "in";
+        _toptabIndex = index;
+      });
+      print(country);
+        },
+  ),
+    );
 }
 
 }
