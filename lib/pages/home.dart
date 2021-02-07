@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   int _currentIndex = 0;
+  final tabNames = ["Headlines", "Category", "Settings"];
   final tabs = [
     Home_News(),
     Category_Selection(),
@@ -28,7 +29,7 @@ class _HomeState extends State<Home> {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: Text(tabNames[_currentIndex].toString()),
           centerTitle: true,
         ),
         bottomNavigationBar: bottomNavigationBarFunction(),
@@ -40,6 +41,7 @@ class _HomeState extends State<Home> {
   Widget bottomNavigationBarFunction()
   {
     return BottomNavigationBar(
+      selectedItemColor: Colors.deepPurple,
       currentIndex: _currentIndex,
       items: [
         BottomNavigationBarItem(
@@ -57,6 +59,10 @@ class _HomeState extends State<Home> {
       ],
       onTap: (index){
         setState(() {
+          if(index==0)
+            type="Headlines";
+          else if(index==1)
+            type="Categories";
           _currentIndex=index;
         });
       },

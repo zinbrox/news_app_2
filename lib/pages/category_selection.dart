@@ -20,7 +20,7 @@ class _Category_SelectionState extends State<Category_Selection> {
             GestureDetector(
               onTap: () {
                 category="Business";
-                Navigator.pushNamed(context, '/category_news');
+                Navigator.pushNamed(context, '/home_news');
               },
               child: Container(
                 child: Stack(
@@ -34,7 +34,7 @@ class _Category_SelectionState extends State<Category_Selection> {
             GestureDetector(
               onTap: (){
                 category="Entertainment";
-                Navigator.pushNamed(context, '/category_news');
+                Navigator.pushNamed(context, '/home_news');
               },
               child: Container(
                 child: Stack(
@@ -48,7 +48,7 @@ class _Category_SelectionState extends State<Category_Selection> {
             GestureDetector(
               onTap: (){
                 category="General";
-                Navigator.pushNamed(context, '/category_news');
+                Navigator.pushNamed(context, '/home_news');
               },
               child: Container(
                 child: Stack(
@@ -62,7 +62,7 @@ class _Category_SelectionState extends State<Category_Selection> {
             GestureDetector(
               onTap: (){
                 category="Health";
-                Navigator.pushNamed(context, '/category_news');
+                Navigator.pushNamed(context, '/home_news');
               },
               child: Container(
                 child: Stack(
@@ -76,7 +76,7 @@ class _Category_SelectionState extends State<Category_Selection> {
             GestureDetector(
               onTap: (){
                 category="Science";
-                Navigator.pushNamed(context, '/category_news');
+                Navigator.pushNamed(context, '/home_news');
               },
               child: Container(
                 child: Stack(
@@ -90,7 +90,7 @@ class _Category_SelectionState extends State<Category_Selection> {
             GestureDetector(
               onTap: (){
                 category="Sports";
-                Navigator.pushNamed(context, '/category_news');
+                Navigator.pushNamed(context, '/home_news');
               },
               child: Container(
                 child: Stack(
@@ -104,7 +104,7 @@ class _Category_SelectionState extends State<Category_Selection> {
             GestureDetector(
               onTap: (){
                 category="Technology";
-                Navigator.pushNamed(context, '/category_news');
+                Navigator.pushNamed(context, '/home_news');
               },
               child: Container(
                 child: Stack(

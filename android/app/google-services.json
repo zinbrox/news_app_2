@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "216114797241",
+    "project_id": "posit-news-app",
+    "storage_bucket": "posit-news-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:216114797241:android:7c9c009a96939e1a96d968",
+        "android_client_info": {
+          "package_name": "com.zinbrox.news_app_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "216114797241-g04569vphf34rifmn9q45juk0b339uds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zinbrox.news_app_2",
+            "certificate_hash": "1159808cd86abe1ea9578d24a3459a04c41b033d"
+          }
+        },
+        {
+          "client_id": "216114797241-ol45fe4v2f71jc7ckaa8l87ck6vptko5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfGHM-QmslTNnHBxX_e9dzPLrDBz0uYZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "216114797241-ol45fe4v2f71jc7ckaa8l87ck6vptko5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

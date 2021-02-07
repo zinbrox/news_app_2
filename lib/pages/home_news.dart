@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_2/pages/article.dart';
+import 'package:news_app_2/pages/home.dart';
 import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/article.dart';
 import 'dart:async';
 
 import 'package:news_app_2/pages/article_view.dart';
+import 'package:news_app_2/pages/category_news.dart';
 
 
 // ignore: camel_case_types
@@ -31,45 +33,39 @@ class _Home_NewsState extends State<Home_News> {
 
     });
   }
+  CategoryGetNews() async {
+    print("In Function getNews()");
+    CategoryNews news = CategoryNews();
+    await news.getCategoryNews(category);
+    newslist = news.news_articles;
+    print("Back in original getNews()");
+    print(newslist[0].articleURL);
+    setState(() {
+
+    });
+  }
 
   @override
   void initState(){
     print("In initState()");
     super.initState();
-    getNews();
-
-
+    if(type=="Headlines")
+      getNews();
+    else if(type=="Categories")
+      CategoryGetNews();
     setState(() {
       _loading=false;
     });
-
-
-
-
   }
-
-/*
-  void dispose() {
-      super.dispose();
-  }
-
- */
-
-
-
 
     @override
     Widget build(BuildContext context) {
       return Container(
         child: Scaffold(
-          appBar: AppBar(
-            title: Text("Home News"),
-            centerTitle: true,
-          ),
 
-          body: /*_loading? Center(
+          body: _loading? Center(
             child: CircularProgressIndicator(),
-          ) : */Container(
+          ) : Container(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: ListView.builder(
                 itemCount: newslist.length,
@@ -90,7 +86,10 @@ class _Home_NewsState extends State<Home_News> {
                         children: <Widget>[
                           ClipRRect(
                               borderRadius: BorderRadius.circular(15.0),
-                              child: Image(image: NetworkImage(newslist[index].imageURL),),
+                              child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/loader.gif',
+                                  image: newslist[index].imageURL
+                              ),
                           ),
                           Text(
                               newslist[index].title,
@@ -107,8 +106,6 @@ class _Home_NewsState extends State<Home_News> {
                   );
                 }
                 ),
-
-
           ),
         ),
       );

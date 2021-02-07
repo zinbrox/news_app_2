@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_2/blocs/color_styles.dart';
 import 'package:news_app_2/blocs/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:news_app_2/blocs/color_styles.dart';
 
 class Settings_Page extends StatefulWidget {
   @override
@@ -11,16 +13,16 @@ class _Settings_PageState extends State<Settings_Page> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeChanger _themeChanger = Provider.of<ThemeChanger>(context);
+    DarkThemeProvider _themeChanger = Provider.of<DarkThemeProvider>(context);
     return Container(
       child: Column(
         children: <Widget>[
           FlatButton(
             child: Text("Light Theme"),
-            onPressed: () => _themeChanger.setTheme(ThemeData.light())),
+            onPressed: () => _themeChanger.darkTheme=false,),
           FlatButton(
               child: Text("Dark Theme"),
-              onPressed: () => _themeChanger.setTheme(ThemeData.dark())),
+              onPressed: () => _themeChanger.darkTheme=true),
 
         ],
       ),
