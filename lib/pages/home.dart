@@ -4,6 +4,7 @@ import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/article_view.dart';
 import 'package:news_app_2/pages/category_selection.dart';
 import 'package:news_app_2/pages/home_news.dart';
+import 'package:news_app_2/pages/settings_page.dart';
 
 
 String type = "Headlines"; //For later combining into single function ** NOT DONE YET **
@@ -17,9 +18,9 @@ class _HomeState extends State<Home> {
 
   int _currentIndex = 0;
   final tabs = [
-    Center(child: Text("Home"),),
     Home_News(),
     Category_Selection(),
+    Settings_Page(),
 
   ];
   @override
@@ -43,15 +44,15 @@ class _HomeState extends State<Home> {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          title: Text('Home'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.view_headline),
-          title: Text("View Headline"),
+          title: Text('Top Headlines'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.category),
           title: Text("Category"),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          title: Text("Settings"),
         ),
       ],
       onTap: (index){
