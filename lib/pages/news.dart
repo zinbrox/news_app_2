@@ -20,8 +20,6 @@ class News {
   if( jsonData['status'] == 'ok'){
     jsonData["articles"].forEach((element){
      if(element['urlToImage'] != null && element['description'] != null) {
-       print(element['title'].toString());
-       print("Huh");
       article = Article(
           title: element['title'],
           description: element['description'],
@@ -43,52 +41,3 @@ class News {
 
 }
 
-
-
-
-class NewsTile extends StatelessWidget {
-  final String title, description, imageURL, content, pageURL;
-
-  //_NewsTileState(this.title, this.description, this.imageURL, this.content, this.pageURL);
-
-
-  NewsTile(
-      {this.title, this.description, this.imageURL, this.content, @required this.pageURL});
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("News Articles"),
-            centerTitle: true,
-          ),
-          body: Center(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: Image(
-                      image: NetworkImage(imageURL),
-                    ),
-                    ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    title,
-                  ),
-                  Text(
-                    description,
-                  ),
-                  Text(
-                    content,
-                  ),
-                ],
-              )
-          ),
-        )
-    );
-  }
-}

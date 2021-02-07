@@ -19,8 +19,6 @@ class CategoryNews{
     if( jsonData['status'] == 'ok'){
       jsonData["articles"].forEach((element){
         if(element['urlToImage'] != null && element['description'] != null) {
-          print(element['title'].toString());
-          print("Huh");
           article = Article(
             title: element['title'],
             description: element['description'],

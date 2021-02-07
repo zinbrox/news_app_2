@@ -28,7 +28,6 @@ class _Home_NewsState extends State<Home_News> {
     await news.getNews();
     newslist = news.news_articles;
     print("Back in original getNews()");
-    print(newslist[0].articleURL);
     setState(() {
 
     });
@@ -39,7 +38,6 @@ class _Home_NewsState extends State<Home_News> {
     await news.getCategoryNews(category);
     newslist = news.news_articles;
     print("Back in original getNews()");
-    print(newslist[0].articleURL);
     setState(() {
 
     });

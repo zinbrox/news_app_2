@@ -12,9 +12,9 @@ class _Category_SelectionState extends State<Category_Selection> {
     return Container(
       child: GridView.count(
           primary: false,
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.fromLTRB(10,0,10,0),
           crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          mainAxisSpacing: 1,
           crossAxisCount: 2,
           children: <Widget>[
             GestureDetector(
@@ -22,13 +22,16 @@ class _Category_SelectionState extends State<Category_Selection> {
                 category="Business";
                 Navigator.pushNamed(context, '/home_news');
               },
-              child: Container(
-                child: Stack(
-                  children: <Widget>[
-                    Image(image: AssetImage('assets/Business.jpg'),),
-                    Text("Business"),
-                  ],
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Image(image: AssetImage('assets/Business.jpg'),),
+                  Text("Business",
+                    style: TextStyle(color: Colors.white,
+                      fontSize: 30.0,
+                    ),
+                  ),
+                ],
               ),
             ),
             GestureDetector(
@@ -36,13 +39,12 @@ class _Category_SelectionState extends State<Category_Selection> {
                 category="Entertainment";
                 Navigator.pushNamed(context, '/home_news');
               },
-              child: Container(
-                child: Stack(
-                  children: <Widget>[
-                    Image(image: AssetImage('assets/Entertainment.jpg'),),
-                    Text("Entertainment"),
-                  ],
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Image(image: AssetImage('assets/Entertainment.jpg'),),
+                  Text("Entertainment", style: TextStyle(color: Colors.white,),),
+                ],
               ),
             ),
             GestureDetector(
@@ -50,13 +52,12 @@ class _Category_SelectionState extends State<Category_Selection> {
                 category="General";
                 Navigator.pushNamed(context, '/home_news');
               },
-              child: Container(
-                child: Stack(
-                  children: <Widget>[
-                    Image(image: AssetImage('assets/General.jpg'),),
-                    Text("General"),
-                  ],
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Image(image: AssetImage('assets/General.jpg'),),
+                  Text("General", style: TextStyle(color: Colors.white,),),
+                ],
               ),
             ),
             GestureDetector(
@@ -64,13 +65,12 @@ class _Category_SelectionState extends State<Category_Selection> {
                 category="Health";
                 Navigator.pushNamed(context, '/home_news');
               },
-              child: Container(
-                child: Stack(
-                  children: <Widget>[
-                    Image(image: AssetImage('assets/Health.jpg'),),
-                    Text("Health"),
-                  ],
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Image(image: AssetImage('assets/Health.jpg'),),
+                  Text("Health", style: TextStyle(color: Colors.white,),),
+                ],
               ),
             ),
             GestureDetector(
@@ -80,9 +80,10 @@ class _Category_SelectionState extends State<Category_Selection> {
               },
               child: Container(
                 child: Stack(
+                  alignment: Alignment.center,
                   children: <Widget>[
                     Image(image: AssetImage('assets/Science.jpg'),),
-                    Text("Science"),
+                    Text("Science", style: TextStyle(color: Colors.white,),),
                   ],
                 ),
               ),
@@ -94,9 +95,10 @@ class _Category_SelectionState extends State<Category_Selection> {
               },
               child: Container(
                 child: Stack(
+                  alignment: Alignment.center,
                   children: <Widget>[
                     Image(image: AssetImage('assets/Sports.jpg'),),
-                    Text("Sports"),
+                    Text("Sports", style: TextStyle(color: Colors.white,),),
                   ],
                 ),
               ),
@@ -108,9 +110,10 @@ class _Category_SelectionState extends State<Category_Selection> {
               },
               child: Container(
                 child: Stack(
+                  alignment: Alignment.center,
                   children: <Widget>[
                     Image(image: AssetImage('assets/Technology.jpg'),),
-                    Text("Technology"),
+                    Text("Technology", style: TextStyle(color: Colors.white,),),
                   ],
                 ),
               ),

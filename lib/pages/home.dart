@@ -17,23 +17,31 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   int _currentIndex = 0;
-  final tabNames = ["Headlines", "Category", "Settings"];
+  final tabNames = ["Headlines", "Categories", "Settings"];
   final tabs = [
     Home_News(),
     Category_Selection(),
     Settings_Page(),
-
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DefaultTabController(
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text(tabNames[_currentIndex].toString()),
           centerTitle: true,
+          automaticallyImplyLeading: false,
+          bottom: tabBarReturn(),
         ),
         bottomNavigationBar: bottomNavigationBarFunction(),
-        body: tabs[_currentIndex],
+        body: _currentIndex==0 ?
+        TabBarView(
+          children: [
+            Home_News(),
+            Home_News(),
+          ],
+        ) : tabs[_currentIndex],
 
       ),
     );
@@ -41,6 +49,8 @@ class _HomeState extends State<Home> {
   Widget bottomNavigationBarFunction()
   {
     return BottomNavigationBar(
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
       selectedItemColor: Colors.deepPurple,
       currentIndex: _currentIndex,
       items: [
@@ -68,6 +78,16 @@ class _HomeState extends State<Home> {
       },
     );
   }
+
+  Widget tabBarReturn() {
+    if(_currentIndex==0)
+    return TabBar(
+  tabs: [
+  Text("Worldwide"),
+  Text("India"),
+  ],
+  );
+}
 
 }
 
