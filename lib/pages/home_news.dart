@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +9,6 @@ import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/article_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 // ignore: camel_case_types
 class Home_News extends StatefulWidget {
   @override
@@ -16,7 +17,6 @@ class Home_News extends StatefulWidget {
 
 // ignore: camel_case_types
 class _Home_NewsState extends State<Home_News> {
-
   List<Article> newslist = new List<Article>();
   bool _loading;
 
@@ -26,103 +26,152 @@ class _Home_NewsState extends State<Home_News> {
     await news.getNews();
     newslist = news.news_articles;
     print("Back in original getNews()");
-    setState(() {
-
-    });
+    setState(() {});
   }
 
-
   @override
-  void initState(){
+  void initState() {
     print("In initState()");
+    setState(() {});
     super.initState();
+    setState(() {});
     getNews();
     country = "";
     setState(() {
-      _loading=false;
+      _loading = false;
     });
   }
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: appBarReturn(),
-        body: _loading? Center(
-          child: CircularProgressIndicator(),
-        ) : Container(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: ListView.builder(
-              itemCount: newslist.length,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index){
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/article_view', arguments: ScreenArguments(newslist[index].articleURL));
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    elevation: 5.0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(15.0),
-                            child: FadeInImage.assetNetwork(
-                                placeholder: 'assets/LoadingGif.gif',
-                                image: newslist[index].imageURL
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final firestoreInstance = FirebaseFirestore.instance;
+
+    return Scaffold(
+      appBar: appBarReturn(),
+      body: _loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: ListView.builder(
+                  itemCount: newslist.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/article_view',
+                            arguments:
+                                ScreenArguments(newslist[index].articleURL));
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        elevation: 5.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15.0),
+                              child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/LoadingGif.gif',
+                                  image: newslist[index].imageURL),
                             ),
-                        ),
-                        Text(
-                            newslist[index].title,
-                          style: GoogleFonts.getFont('Oswald',
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500, ),
+                            Text(
+                              newslist[index].title,
+                              style: GoogleFonts.getFont(
+                                'Oswald',
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              newslist[index].description,
+                              style: GoogleFonts.getFont(
+                                'Roboto',
+                                fontSize: 15.0,
 
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  DateFormat('kk:mm dd-MM-yyyy')
+                                      .format(newslist[index].publishedDate),
+                                  style: GoogleFonts.getFont('Roboto'),
+                                ),
+                                PopupMenuButton(
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: Text("Bookmark"),
+                                    ),
+                                  ],
+                                  onSelected: (value) {
+                                    print("value:$value");
+                                    var firebaseUser =  FirebaseAuth.instance.currentUser;
+                                    firestoreInstance.collection("users").doc(firebaseUser.uid).collection("bookmarks").add(
+                                        {
+                                          "pageTitle" : newslist[index].title,
+                                          "description" : newslist[index].description,
+                                          "articleURL" : newslist[index].articleURL,
+                                          "date" : newslist[index].publishedDate,
+                                          "imageURL" : newslist[index].imageURL,
+                                        }).then((_){
+                                      print("success!");
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              color: Colors.white,
+                              height: 20,
+                              thickness: 3,
+                              indent: 00,
+                              endIndent: 0,
+                            ),
+                          ],
                         ),
-                        Text(
-                          newslist[index].description,
-                          style: GoogleFonts.getFont('Roboto',
-                          fontSize: 15.0,),
-                        ),
-                        Text(
-                            DateFormat('kk:mm dd-MM-yyyy').format(newslist[index].publishedDate),
-                          style: GoogleFonts.getFont('Roboto'),
-                        ),
-                        const Divider(
-                          color: Colors.white,
-                          height: 20,
-                          thickness: 3,
-                          indent: 00,
-                          endIndent: 0,
-                        ),
-                      ],
+                      ),
+                    );
+                  }),
+            ),
+    );
+  }
 
-                    ),
-                  ),
-                );
-              }
-              ),
+  Widget appBarTitleReturn() {
+    if (type == "Categories")
+      return Text(
+        category.toString(),
+        style: GoogleFonts.getFont(
+          'Oswald',
+          fontSize: 25.0,
         ),
       );
-    }
+    else if (type == "Search")
+      return Text(
+        "Results for " + "\"" + searchText.toString() + "\"",
+        style: GoogleFonts.getFont(
+          'Oswald',
+          fontSize: 25.0,
+        ),
+      );
+  }
 
-    Widget appBarTitleReturn(){
-      if(type=="Categories")
-        return Text(
-            category.toString(),
-          style: GoogleFonts.getFont('Oswald',
-          fontSize: 25.0,),
-        );
-    }
-    Widget appBarReturn(){
-    if(type=="Categories")
+  Widget appBarReturn() {
+    if (type == "Categories" || type == "Search")
       return AppBar(
         title: appBarTitleReturn(),
         centerTitle: true,
       );
-    }
   }
-
+}

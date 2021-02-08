@@ -39,6 +39,8 @@ class Styles {
         Theme.of(context).textTheme),
 
        */
+
+
       primarySwatch: Colors.red,
       primaryColor: isDarkTheme ? Colors.black : Colors.white,
 

@@ -16,6 +16,8 @@ class News {
     url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&country=$country&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Headlines")
       url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+    else if(type == "Search")
+      url = "http://newsapi.org/v2/everything?q=$searchText&sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Categories")
       url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&category=$category&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else

@@ -6,12 +6,12 @@ import 'package:news_app_2/pages/home_news.dart';
 import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/searchPage.dart';
 import 'package:news_app_2/pages/settings_page.dart';
-
+import 'package:news_app_2/pages/side_nav.dart';
 
 String type = "Headlines"; //For combining into single function
 String country = "";
 String category;
-
+String searchText = "";
 
 class Home extends StatefulWidget {
   @override
@@ -19,9 +19,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   int _currentIndex = 0;
-  int _toptabIndex=0;
+  int _toptabIndex = 0;
   final tabNames = ["Headlines", "Search", "Categories", "Settings"];
   final tabs = [
     Home_News(),
@@ -33,29 +32,32 @@ class _HomeState extends State<Home> {
     Home_News(),
     Country_News(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        drawer: SideDrawer(),
         appBar: AppBar(
           title: Text(
-              tabNames[_currentIndex].toString(),
-              style: GoogleFonts.getFont('Oswald',
-              fontSize: 25.0,),
+            tabNames[_currentIndex].toString(),
+            style: GoogleFonts.getFont(
+              'Oswald',
+              fontSize: 25.0,
+            ),
           ),
           centerTitle: true,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           bottom: tabBarReturn(),
         ),
         bottomNavigationBar: bottomNavigationBarFunction(),
-        body: _currentIndex==0 ? toptabs[_toptabIndex]: tabs[_currentIndex],
-
+        body: _currentIndex == 0 ? toptabs[_toptabIndex] : tabs[_currentIndex],
       ),
     );
   }
-  Widget bottomNavigationBarFunction()
-  {
+
+  Widget bottomNavigationBarFunction() {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       showSelectedLabels: false,
@@ -67,13 +69,10 @@ class _HomeState extends State<Home> {
           icon: Icon(Icons.home),
           title: Text('Top Headlines'),
         ),
-
         BottomNavigationBarItem(
           icon: Icon(Icons.search),
           title: Text('Search'),
         ),
-
-
         BottomNavigationBarItem(
           icon: Icon(Icons.category),
           title: Text("Category"),
@@ -83,41 +82,75 @@ class _HomeState extends State<Home> {
           title: Text("Settings"),
         ),
       ],
-      onTap: (index){
+      onTap: (index) {
         setState(() {
-          if(index==0)
-            type="Headlines";
-          else if(index==2)
-            type="Categories";
-          _currentIndex=index;
+          if (index == 0)
+            type = "Headlines";
+          else if (index == 1)
+            type = "Search";
+          else if (index == 2) type = "Categories";
+          _currentIndex = index;
         });
       },
     );
   }
 
   Widget tabBarReturn() {
-    if(_currentIndex==0)
-    return PreferredSize(
-      preferredSize: Size(30.0, 30.0),
-      child: TabBar(
-  tabs: [
-  Text("Worldwide", style: GoogleFonts.getFont("Oswald", fontSize: 20.0,),),
-  Text("India", style: GoogleFonts.getFont("Oswald", fontSize: 20.0,),),
-  ],
-        onTap: (index){
-      print("TopTab pressed");
-      setState(() {
-        print(index);
-        if(index == 1)
-          country = "in";
-        _toptabIndex = index;
-      });
-      print(country);
-        },
-  ),
-    );
+    if (_currentIndex == 0)
+      return PreferredSize(
+        preferredSize: Size(30.0, 30.0),
+        child: TabBar(
+          physics: AlwaysScrollableScrollPhysics(),
+          tabs: [
+            Text(
+              "Worldwide",
+              style: GoogleFonts.getFont(
+                "Oswald",
+                fontSize: 20.0,
+              ),
+            ),
+            Text(
+              "India",
+              style: GoogleFonts.getFont(
+                "Oswald",
+                fontSize: 20.0,
+              ),
+            ),
+          ],
+          onTap: (index) {
+            print("TopTab pressed");
+            setState(() {
+              print(index);
+              if (index == 1) country = "in";
+              _toptabIndex = index;
+            });
+            print(country);
+          },
+        ),
+      );
+
+    Widget drawerReturn() {
+      return Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text(
+                'Side menu',
+                style: TextStyle(fontSize: 25),
+              ),
+              decoration: BoxDecoration(),
+            ),
+            ListTile(
+              title: Text('Bookmarks'),
+              onTap: () => {},
+            ),
+            ListTile(
+              title: Text('Feedback and Help'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 }
-
-}
-
-
