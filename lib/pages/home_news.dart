@@ -71,7 +71,7 @@ class _Home_NewsState extends State<Home_News> {
                         ClipRRect(
                             borderRadius: BorderRadius.circular(15.0),
                             child: FadeInImage.assetNetwork(
-                                placeholder: 'assets/loader.gif',
+                                placeholder: 'assets/LoadingGif.gif',
                                 image: newslist[index].imageURL
                             ),
                         ),
