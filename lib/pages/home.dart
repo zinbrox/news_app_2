@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_2/pages/category_selection.dart';
 import 'package:news_app_2/pages/home_news.dart';
 import 'package:news_app_2/pages/news.dart';
+import 'package:news_app_2/pages/searchPage.dart';
 import 'package:news_app_2/pages/settings_page.dart';
 
 
@@ -21,9 +22,10 @@ class _HomeState extends State<Home> {
 
   int _currentIndex = 0;
   int _toptabIndex=0;
-  final tabNames = ["Headlines", "Categories", "Settings"];
+  final tabNames = ["Headlines", "Search", "Categories", "Settings"];
   final tabs = [
     Home_News(),
+    Search_Page(),
     Category_Selection(),
     Settings_Page(),
   ];
@@ -55,6 +57,7 @@ class _HomeState extends State<Home> {
   Widget bottomNavigationBarFunction()
   {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       showSelectedLabels: false,
       showUnselectedLabels: false,
       selectedItemColor: Colors.deepPurple,
@@ -64,6 +67,13 @@ class _HomeState extends State<Home> {
           icon: Icon(Icons.home),
           title: Text('Top Headlines'),
         ),
+
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          title: Text('Search'),
+        ),
+
+
         BottomNavigationBarItem(
           icon: Icon(Icons.category),
           title: Text("Category"),
@@ -77,7 +87,7 @@ class _HomeState extends State<Home> {
         setState(() {
           if(index==0)
             type="Headlines";
-          else if(index==1)
+          else if(index==2)
             type="Categories";
           _currentIndex=index;
         });

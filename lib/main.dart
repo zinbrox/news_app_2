@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_2/blocs/color_styles.dart';
-import 'package:news_app_2/blocs/theme.dart';
+//import 'package:news_app_2/blocs/theme.dart';
 import 'package:news_app_2/pages/home.dart';
 import 'package:news_app_2/pages/home_news.dart';
 import 'package:news_app_2/pages/article_view.dart';
 import 'package:news_app_2/pages/category_selection.dart';
 import 'package:provider/provider.dart';
-import 'package:news_app_2/blocs/theme.dart';
+//import 'package:news_app_2/blocs/theme.dart';
 import 'package:news_app_2/pages/loginPage.dart';
 
 void main() => runApp(MyApp());
@@ -54,6 +54,7 @@ class _MyAppState extends State<MyApp>{
   }
 }
 
+/*
 class MaterialAppWithTheme extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -73,4 +74,6 @@ class MaterialAppWithTheme extends StatelessWidget{
   }
 }
 
+
+ */
 
