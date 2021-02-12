@@ -24,7 +24,7 @@ class _Article_ViewState extends State<Article_View> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Article View",
-        style: GoogleFonts.getFont("Oswald",fontSize: 25.0),),
+          style: GoogleFonts.getFont("Oswald",fontSize: 25.0),),
         centerTitle: true,
       ),
       body: Container(

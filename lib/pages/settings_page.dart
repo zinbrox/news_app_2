@@ -34,6 +34,7 @@ class _Settings_PageState extends State<Settings_Page> {
     'Food',
   ];
 
+
   @override
   Widget build(BuildContext context) {
     DarkThemeProvider _themeChanger = Provider.of<DarkThemeProvider>(context);
@@ -88,7 +89,7 @@ class _Settings_PageState extends State<Settings_Page> {
             Text("Custom Notifications"),
             RaisedButton(
               child: Text("FireStore PLS DONT TOUCH"),
-              onPressed: () {
+              onPressed: () async {
                 var firebaseUser = FirebaseAuth.instance.currentUser;
                 //for (var i in custom)
                 /*
@@ -104,7 +105,23 @@ class _Settings_PageState extends State<Settings_Page> {
 
                    */
                 //PLEASE DONT TOUCH THIS AGAIN
-                  firestoreInstance.collection("preferences").doc("keywords").update({'custom':FieldValue.arrayUnion(custom)});
+                  //firestoreInstance.collection("preferences").doc("keywords").update({'custom':FieldValue.arrayUnion(custom)});
+
+
+                    //customTerms.remove(orderData['custom'][index]);
+                print(firebaseUser.uid);
+                DocumentSnapshot variable = await firestoreInstance.collection("userPreferences").doc(firebaseUser.uid).get();
+                  print(variable['custom']);
+
+                    firestoreInstance
+                        .collection('userPreferences')
+                        .doc(firebaseUser.uid)
+                        .update({
+                      "custom": FieldValue.arrayUnion(
+                          ['another test'])
+                    });
+                    //customTerms.add(orderData['custom'][index]);
+
                   /*
                   firestoreInstance.collection("test").get().then((querySnapshot) {
                     querySnapshot.docs.forEach((result) {

@@ -18,24 +18,25 @@ class News {
     final firestoreInstance = FirebaseFirestore.instance;
     var firebaseUser =  FirebaseAuth.instance.currentUser;
     if(type=="Custom") {
-      firestoreInstance.collection("userPreferences").get().then((querySnapshot) {
-        querySnapshot.docs.forEach((result) {
+      print("In Custom");
+      await firestoreInstance.collection("userPreferences").doc(firebaseUser.uid).get().then((result) {
+        print(result.data()['custom']);
           keywords = result.data()['custom'].join(" OR ");
-        });
       });
       //keywords = customTerms.join(" OR ");
     }
     print(keywords);
+    print("Hello");
     if(country == "in")
-    url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&country=$country&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+    url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&country=$country&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Headlines")
-      url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+      url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type=="Custom")
-      url = "http://newsapi.org/v2/everything?q=$keywords&sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+      url = "https://newsapi.org/v2/everything?q=$keywords&sortBy=publishedAt&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Search")
-      url = "http://newsapi.org/v2/everything?q=$searchText&sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+      url = "https://newsapi.org/v2/everything?q=$searchText&sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Categories")
-      url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&category=$category&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+      url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&category=$category&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else
       return null;
     var response = await http.get(url);

@@ -87,6 +87,13 @@ class _Home_NewsState extends State<Home_News> {
                               borderRadius: BorderRadius.circular(15.0),
                               child: FadeInImage.assetNetwork(
                                   placeholder: 'assets/LoadingGif.gif',
+                                  imageErrorBuilder: (BuildContext context, Object exception, StackTrace stackTrace){
+                                    return Column(
+                                      children: [
+                                        Text("Couldn't Load Image"),
+                                      ],
+                                    );
+                                  },
                                   image: newslist[index].imageURL),
                             ),
                             Text(

@@ -37,7 +37,6 @@ class Styles {
       /*
       textTheme: GoogleFonts.oswaldTextTheme(
         Theme.of(context).textTheme),
-
        */
 
 

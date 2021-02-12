@@ -70,8 +70,8 @@ class _Category_SelectionState extends State<Category_Selection> {
         ),
         Expanded(
           child: GridView.builder(
-            shrinkWrap: false,
-            itemCount: AssetImages.length,
+              shrinkWrap: false,
+              itemCount: AssetImages.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
               itemBuilder: (BuildContext context, int index) {

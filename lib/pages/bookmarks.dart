@@ -36,10 +36,6 @@ class _BookmarkState extends State<Bookmark> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Bookmarks"),
-        centerTitle: true,
-      ),
       body:  Container(
         child: bookmarkCardReturn(),
 

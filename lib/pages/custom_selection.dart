@@ -34,6 +34,16 @@ class _Custom_SelectionState extends State<Custom_Selection> {
     itemList.add(Item("F1", 8));
   }
 
+  Future<bool> checkIfDocExists() async {
+    try {
+      var collectionRef = firestoreInstance.collection("userPreferences");
+      var doc = await collectionRef.doc(firebaseUser.uid).get();
+      return doc.exists;
+    } catch(e){
+      throw e;
+    }
+  }
+
   @override
   void initState() {
     print("In initState() of Custom_Selection");
@@ -98,15 +108,23 @@ class _Custom_SelectionState extends State<Custom_Selection> {
             itemBuilder: (BuildContext context, int index) {
               var orderData = snapshot.data;
               return GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  bool docExists = await checkIfDocExists();
+                  if(!docExists)
+                    {
+                      List<String> empty = [];
+                      firestoreInstance.collection("userPreferences").doc(firebaseUser.uid).set({'custom':empty});
+                    }
+
                   firestoreInstance.collection("userPreferences").doc(firebaseUser.uid).get().then((result)
                   {
-                      if(result.data()['custom'].contains(orderData['custom'][index])) {
+
+                    if(result.data()['custom'].contains(orderData['custom'][index])) {
                         firestoreInstance
                             .collection("userPreferences")
                             .doc(firebaseUser.uid)
                             .update({
-                          'array': FieldValue.arrayRemove(
+                          'custom': FieldValue.arrayRemove(
                               [orderData['custom'][index]])
                         });
                         //customTerms.remove(orderData['custom'][index]);
@@ -116,7 +134,7 @@ class _Custom_SelectionState extends State<Custom_Selection> {
                             .collection("userPreferences")
                             .doc(firebaseUser.uid)
                             .update({
-                          'array': FieldValue.arrayUnion(
+                          'custom': FieldValue.arrayUnion(
                               [orderData['custom'][index]])
                         });
                         //customTerms.add(orderData['custom'][index]);
