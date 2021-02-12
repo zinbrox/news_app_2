@@ -35,7 +35,8 @@ dependencies:
   intl:
   cloud_firestore: ^0.16.0
   share: ^0.6.5+4
-  
+  delayed_display: ^1.1.0
+
 
 
   # The following adds the Cupertino Icons font to your application.

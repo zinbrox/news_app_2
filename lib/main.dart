@@ -11,6 +11,7 @@ import 'package:news_app_2/pages/loginPage.dart';
 import 'package:news_app_2/pages/bookmarks.dart';
 import 'package:news_app_2/pages/custom_selection.dart';
 import 'package:news_app_2/pages/settings_page.dart';
+import 'package:news_app_2/pages/splash_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -40,8 +41,9 @@ class _MyAppState extends State<MyApp>{
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-            initialRoute: '/loginPage',
+            initialRoute: '/splash',
             routes: {
+              '/splash':(context) => Splash(),
               '/home':(context) => Home(),
               '/home_news':(context) => Home_News(),
               '/article_view':(context) => Article_View(),
