@@ -8,6 +8,9 @@ import 'package:news_app_2/pages/home.dart';
 import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/article_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share/share.dart';
+
+List<String> customTerms = List<String>();
 
 // ignore: camel_case_types
 class Home_News extends StatefulWidget {
@@ -19,6 +22,7 @@ class Home_News extends StatefulWidget {
 class _Home_NewsState extends State<Home_News> {
   List<Article> newslist = new List<Article>();
   bool _loading;
+  final firestoreInstance = FirebaseFirestore.instance;
 
   getNews() async {
     print("In Function getNews()");
@@ -49,7 +53,8 @@ class _Home_NewsState extends State<Home_News> {
 
   @override
   Widget build(BuildContext context) {
-    final firestoreInstance = FirebaseFirestore.instance;
+
+    final RenderBox box = context.findRenderObject();
 
     return Scaffold(
       appBar: appBarReturn(),
@@ -112,22 +117,39 @@ class _Home_NewsState extends State<Home_News> {
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
                                       value: 1,
-                                      child: Text("Bookmark"),
+                                      child: ListTile(leading: Icon(Icons.bookmark), title: Text("Bookmark"),),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 2,
+                                      child: ListTile(leading: Icon(Icons.share), title: Text("Share"),),
                                     ),
                                   ],
                                   onSelected: (value) {
                                     print("value:$value");
-                                    var firebaseUser =  FirebaseAuth.instance.currentUser;
-                                    firestoreInstance.collection("users").doc(firebaseUser.uid).collection("bookmarks").add(
-                                        {
-                                          "pageTitle" : newslist[index].title,
-                                          "description" : newslist[index].description,
-                                          "articleURL" : newslist[index].articleURL,
-                                          "date" : newslist[index].publishedDate,
-                                          "imageURL" : newslist[index].imageURL,
-                                        }).then((_){
-                                      print("success!");
-                                    });
+                                    if(value==1) {
+                                      var firebaseUser = FirebaseAuth.instance
+                                          .currentUser;
+                                      firestoreInstance.collection("users").doc(
+                                          firebaseUser.uid).collection(
+                                          "bookmarks").add(
+                                          {
+                                            "pageTitle": newslist[index].title,
+                                            "description": newslist[index]
+                                                .description,
+                                            "articleURL": newslist[index]
+                                                .articleURL,
+                                            "date": newslist[index]
+                                                .publishedDate,
+                                            "imageURL": newslist[index]
+                                                .imageURL,
+                                          }).then((_) {
+                                        print("success!");
+                                      });
+                                    }
+                                    else if(value==2){
+                                      String text = "Check out this Article: \n" + newslist[index].title + "\n URL: " + newslist[index].articleURL;
+                                      Share.share(text, sharePositionOrigin: box.localToGlobal(Offset.zero)&box.size);
+                                  }
                                   },
                                 ),
                               ],

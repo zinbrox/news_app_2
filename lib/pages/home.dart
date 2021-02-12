@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app_2/pages/bookmarks.dart';
 import 'package:news_app_2/pages/category_selection.dart';
 import 'package:news_app_2/pages/home_news.dart';
 import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/searchPage.dart';
 import 'package:news_app_2/pages/settings_page.dart';
 import 'package:news_app_2/pages/side_nav.dart';
+import 'package:news_app_2/pages/custom_selection.dart';
 
 String type = "Headlines"; //For combining into single function
 String country = "";
@@ -21,12 +23,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   int _toptabIndex = 0;
-  final tabNames = ["Headlines", "Search", "Categories", "Settings"];
+  final tabNames = ["Headlines", "My News", "Categories", "Bookmarks"];
   final tabs = [
     Home_News(),
-    Search_Page(),
+    Custom_Search(),
     Category_Selection(),
-    Settings_Page(),
+    Bookmark(),
   ];
   final toptabs = [
     Home_News(),
@@ -70,16 +72,16 @@ class _HomeState extends State<Home> {
           title: Text('Top Headlines'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          title: Text('Search'),
+          icon: Icon(Icons.view_headline),
+          title: Text('My News'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.category),
+          icon: Icon(Icons.explore),
           title: Text("Category"),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          title: Text("Settings"),
+          icon: Icon(Icons.bookmark),
+          title: Text("Bookmarks"),
         ),
       ],
       onTap: (index) {
@@ -87,8 +89,11 @@ class _HomeState extends State<Home> {
           if (index == 0)
             type = "Headlines";
           else if (index == 1)
-            type = "Search";
-          else if (index == 2) type = "Categories";
+            type = "Custom";
+          else if (index == 2)
+            type = "Categories";
+          else if (index == 3)
+            type = "Bookmarks";
           _currentIndex = index;
         });
       },

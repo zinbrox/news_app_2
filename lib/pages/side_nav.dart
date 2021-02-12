@@ -35,6 +35,14 @@ class SideDrawer extends StatelessWidget {
             title: Text('Bookmarks'),
             onTap: () {
               Navigator.of(context).pop();
+              Navigator.pushNamed(context, '/bookmark');
+            },
+          ),
+          ListTile(
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.pushNamed(context, '/settings');
             },
           ),
           ListTile(

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:news_app_2/pages/article.dart';
 import 'package:news_app_2/pages/home.dart';
@@ -12,10 +14,24 @@ class News {
   Future<void> getNews() async{
     print("In getNews() of class News");
     String url;
+    String keywords;
+    final firestoreInstance = FirebaseFirestore.instance;
+    var firebaseUser =  FirebaseAuth.instance.currentUser;
+    if(type=="Custom") {
+      firestoreInstance.collection("userPreferences").get().then((querySnapshot) {
+        querySnapshot.docs.forEach((result) {
+          keywords = result.data()['custom'].join(" OR ");
+        });
+      });
+      //keywords = customTerms.join(" OR ");
+    }
+    print(keywords);
     if(country == "in")
     url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&country=$country&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Headlines")
       url = "http://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+    else if(type=="Custom")
+      url = "http://newsapi.org/v2/everything?q=$keywords&sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Search")
       url = "http://newsapi.org/v2/everything?q=$searchText&sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Categories")
@@ -76,4 +92,18 @@ class _Country_NewsState extends State<Country_News> {
     return Home_News();
   }
 }
+
+class Custom_Search extends StatefulWidget {
+  @override
+  _Custom_SearchState createState() => _Custom_SearchState();
+}
+
+class _Custom_SearchState extends State<Custom_Search> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Home_News();
+  }
+}
+
 

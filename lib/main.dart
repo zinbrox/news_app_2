@@ -8,6 +8,9 @@ import 'package:news_app_2/pages/category_selection.dart';
 import 'package:provider/provider.dart';
 //import 'package:news_app_2/blocs/theme.dart';
 import 'package:news_app_2/pages/loginPage.dart';
+import 'package:news_app_2/pages/bookmarks.dart';
+import 'package:news_app_2/pages/custom_selection.dart';
+import 'package:news_app_2/pages/settings_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -43,7 +46,10 @@ class _MyAppState extends State<MyApp>{
               '/home_news':(context) => Home_News(),
               '/article_view':(context) => Article_View(),
               '/category_selection':(context) => Category_Selection(),
+              '/settings':(context) => Settings_Page(),
               '/loginPage':(context) => LoginPage(),
+              '/bookmark':(context) => Bookmark(),
+              '/custom_selection':(context) => Custom_Selection(),
             },
           );
         },
