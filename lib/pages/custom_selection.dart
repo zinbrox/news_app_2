@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app_2/blocs/color_styles.dart';
 import 'package:news_app_2/pages/home_news.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Item {
@@ -75,6 +78,8 @@ class _Custom_SelectionState extends State<Custom_Selection> {
 
   @override
   Widget build(BuildContext context) {
+    DarkThemeProvider _themeChanger = Provider.of<DarkThemeProvider>(context);
+    bool isDark = _themeChanger.darkTheme;
     return _loading ? CircularProgressIndicator()
         : Scaffold(
       appBar: AppBar(
@@ -89,6 +94,7 @@ class _Custom_SelectionState extends State<Custom_Selection> {
             return CircularProgressIndicator();
           else
           return GridView.builder(
+            padding: EdgeInsets.all(5),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, mainAxisSpacing: 4.0, crossAxisSpacing: 4.0),
               itemCount: snapshot.data['custom'].length,
@@ -157,21 +163,27 @@ class _Custom_SelectionState extends State<Custom_Selection> {
 
                     });
                   },
-                  child: Stack(
-                    children: <Widget>[
-                      Text(orderData['custom'][index]),
-                      customList.length > 0 && customList.contains(orderData['custom'][index])==true
-                          ?  Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.check_circle,
+                  child: Container(
+                    constraints: BoxConstraints(maxHeight: 30),
+                    color: isDark ? Colors.grey[900] : Colors.grey[400],
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Text(orderData['custom'][index], style: GoogleFonts.getFont("Oswald", fontSize: 20),),
+                        customList.length > 0 && customList.contains(orderData['custom'][index])==true
+                            ?  Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: isDark ? Colors.white : Colors.black,
+                            ),
                           ),
-                        ),
-                      )
-                          : Container(),
-                    ],
+                        )
+                            : Container(),
+                      ],
+                    ),
                   ),
                 );
               });
