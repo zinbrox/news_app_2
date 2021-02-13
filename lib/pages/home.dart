@@ -24,7 +24,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   int _toptabIndex = 0;
-  final tabNames = ["Headlines", "My News", "Categories", "Bookmarks"];
+  final tabNames = ["Headlines", "My News", "Explore", "Bookmarks"];
   final tabs = [
     Home_News(),
     Custom_Search(),

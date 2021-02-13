@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app_2/blocs/color_styles.dart';
 import 'package:news_app_2/pages/article.dart';
 import 'package:news_app_2/pages/home.dart';
 import 'package:news_app_2/pages/article_view.dart';
+import 'package:provider/provider.dart';
 
 class Bookmark extends StatefulWidget {
   @override
@@ -44,9 +46,11 @@ class _BookmarkState extends State<Bookmark> {
     }
   Widget bookmarkCardReturn() {
     print("In bookmarkCardReturn");
+    DarkThemeProvider _themeChanger = Provider.of<DarkThemeProvider>(context);
+    bool isDark = _themeChanger.darkTheme;
 
     return StreamBuilder(
-      stream: firestoreInstance.collection("users").doc(firebaseUser.uid).collection("bookmarks").snapshots(),
+      stream: firestoreInstance.collection("users").doc(firebaseUser.uid).collection("bookmarks").orderBy('date', descending: true).snapshots(),
       builder: (context, snapshot){
               return snapshot.hasData ?
               ListView.builder(
@@ -87,7 +91,7 @@ class _BookmarkState extends State<Bookmark> {
                         style: GoogleFonts.getFont(
                           'Roboto',
                           fontSize: 15.0,
-
+                          color: isDark ? Colors.grey[200] : Colors.grey[900],
                         ),
                       ),
                       Text(

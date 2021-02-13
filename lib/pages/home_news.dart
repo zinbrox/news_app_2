@@ -3,11 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:news_app_2/blocs/color_styles.dart';
 import 'package:news_app_2/pages/article.dart';
 import 'package:news_app_2/pages/home.dart';
 import 'package:news_app_2/pages/news.dart';
 import 'package:news_app_2/pages/article_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 List<String> customTerms = List<String>();
@@ -62,6 +64,8 @@ class _Home_NewsState extends State<Home_News> {
   @override
   Widget build(BuildContext context) {
     final RenderBox box = context.findRenderObject();
+    DarkThemeProvider _themeChanger = Provider.of<DarkThemeProvider>(context);
+    bool isDark = _themeChanger.darkTheme;
 
     return Scaffold(
       appBar: appBarReturn(),
@@ -126,6 +130,7 @@ class _Home_NewsState extends State<Home_News> {
                         style: GoogleFonts.getFont(
                           'Roboto',
                           fontSize: 15.0,
+                          color: isDark ? Colors.grey[200] : Colors.grey[900],
                         ),
                       ),
                       Row(
@@ -175,6 +180,8 @@ class _Home_NewsState extends State<Home_News> {
                                   "imageURL":
                                   newslist[index].imageURL,
                                 }).then((_) {
+                                  final snackBar = SnackBar(content: Text('Bookmarked!'));
+                                  Scaffold.of(context).showSnackBar(snackBar);
                                   print("success!");
                                 });
                               } else if (value == 2) {

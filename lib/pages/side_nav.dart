@@ -46,6 +46,7 @@ class _SideDrawerState extends State<SideDrawer> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Theme"),
+              /*
               DropdownButton<String>(
                 value: dropdownValue,
                 onChanged: (String newValue){
@@ -57,6 +58,21 @@ class _SideDrawerState extends State<SideDrawer> {
                 items: <String>['Light','Dark'].map<DropdownMenuItem<String>>((String value){
                   return DropdownMenuItem<String>(value: value, child: Text(value),);
                 }).toList(),
+              ),
+
+               */
+              Switch(
+                value: isSwitched,
+                onChanged: (value) {
+                  setState(() {
+                    isSwitched = value;
+                    value == false
+                        ? _themeChanger.darkTheme = false
+                        : _themeChanger.darkTheme = true;
+                  });
+                },
+                activeColor: Colors.deepPurple,
+                activeTrackColor: Colors.purpleAccent[400],
               ),
             ],
           ),
