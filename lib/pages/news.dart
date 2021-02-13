@@ -34,7 +34,7 @@ class News {
     else if(type=="Custom")
       url = "https://newsapi.org/v2/everything?q=$keywords&sortBy=publishedAt&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Search")
-      url = "https://newsapi.org/v2/everything?q=$searchText&sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+      url = "https://newsapi.org/v2/everything?q=$searchText&sortBy=relevancy&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Categories")
       url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&category=$category&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else

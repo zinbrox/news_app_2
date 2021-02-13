@@ -40,6 +40,15 @@ class _Category_SelectionState extends State<Category_Selection> {
       }
     });
   }
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,19 +60,31 @@ class _Category_SelectionState extends State<Category_Selection> {
             _searchIcon,
             Container(
               width: 325.0,
-              child: TextField(
+              child: TextFormField(
                 controller: _text,
+                maxLines: 1,
+                onChanged: (value){
+                  searchText = _text.text;
+                },
+                onFieldSubmitted: (value){
+                  FocusScope.of(context).unfocus();
+                  searchText = _text.text;
+                  type="Search";
+                  Navigator.pushNamed(context, '/home_news');
+                },
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.send),
+                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                    //border: OutlineInputBorder(borderSide: new BorderSide(color: Colors.white, width: 20.0)),
+                    hintText: "Search",
+                    suffixIcon: _text.text.length>0 ? IconButton(
+                      icon: Icon(Icons.cancel),
                       onPressed: () {
+                        _text.text = "";
                         searchText = _text.text;
                         type="Search";
-                        Navigator.pushNamed(context, '/home_news');
                       },
-                    ),
-                    hintText: "Search"),
+                    ) : null,
+                ),
               ),
             ),
           ],
@@ -78,6 +99,7 @@ class _Category_SelectionState extends State<Category_Selection> {
                 return GestureDetector(
                   onTap: (){
                     category=ImageNames[index];
+                    type="Categories";
                     Navigator.pushNamed(context, '/home_news');
                   },
                   child: Stack(
@@ -100,114 +122,5 @@ class _Category_SelectionState extends State<Category_Selection> {
         ),
       ],
     );
-    /*Container(
-          child: GridView.count(
-              primary: false,
-              padding: const EdgeInsets.fromLTRB(10,0,10,0),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 1,
-              crossAxisCount: 2,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    category="Business";
-                    Navigator.pushNamed(context, '/home_news');
-                  },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Business1.jpeg'),)),
-                      Text("Business", style: GoogleFonts.getFont("Oswald", fontSize: 30.0, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    category="Entertainment";
-                    Navigator.pushNamed(context, '/home_news');
-                  },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Entertainment.jpg'),)),
-                      Text("Entertainment", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    category="General";
-                    Navigator.pushNamed(context, '/home_news');
-                  },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      ClipRRect(borderRadius: BorderRadius.circular(10.0), child: Image(image: AssetImage('assets/General.jpg'),),),
-                      Text("General", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    category="Health";
-                    Navigator.pushNamed(context, '/home_news');
-                  },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Health1.jpg'),),),
-                      Text("Health", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    category="Science";
-                    Navigator.pushNamed(context, '/home_news');
-                  },
-                  child: Container(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Science.jpg'),),),
-                        Text("Science", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    category="Sports";
-                    Navigator.pushNamed(context, '/home_news');
-                  },
-                  child: Container(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Sports.jpg'),),),
-                        Text("Sports", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    category="Technology";
-                    Navigator.pushNamed(context, '/home_news');
-                  },
-                  child: Container(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        ClipRRect(borderRadius: BorderRadius.circular(10.0),child: Image(image: AssetImage('assets/Technology.jpg'),),),
-                        Text("Technology", style: GoogleFonts.getFont("Oswald",fontSize: 30.0, color: Colors.white),),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-          ),
-        ); */
   }
 }
