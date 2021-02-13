@@ -37,24 +37,27 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        drawer: SideDrawer(),
-        appBar: AppBar(
-          title: Text(
-            tabNames[_currentIndex].toString(),
-            style: GoogleFonts.getFont(
-              'Oswald',
-              fontSize: 25.0,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          drawer: SideDrawer(),
+          appBar: AppBar(
+            title: Text(
+              tabNames[_currentIndex].toString(),
+              style: GoogleFonts.getFont(
+                'Oswald',
+                fontSize: 25.0,
+              ),
             ),
+            centerTitle: true,
+            automaticallyImplyLeading: true,
+            bottom: tabBarReturn(),
           ),
-          centerTitle: true,
-          automaticallyImplyLeading: true,
-          bottom: tabBarReturn(),
+          bottomNavigationBar: bottomNavigationBarFunction(),
+          body: _currentIndex == 0 ? toptabs[_toptabIndex] : tabs[_currentIndex],
         ),
-        bottomNavigationBar: bottomNavigationBarFunction(),
-        body: _currentIndex == 0 ? toptabs[_toptabIndex] : tabs[_currentIndex],
       ),
     );
   }
