@@ -7,10 +7,12 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:news_app_2/pages/home_news.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class News {
   // ignore: non_constant_identifier_names
   List<Article> news_articles = [];
+  bool contentAvailable = true;
   Future<void> getNews() async{
     print("In getNews() of class News");
     String url;
@@ -19,15 +21,21 @@ class News {
     var firebaseUser =  FirebaseAuth.instance.currentUser;
     if(type=="Custom") {
       print("In Custom");
+      /*
       await firestoreInstance.collection("userPreferences").doc(firebaseUser.uid).get().then((result) {
         print(result.data()['custom']);
           keywords = result.data()['custom'].join(" OR ");
-      });
+
+       */
+      final prefs = await SharedPreferences.getInstance();
+      keywords = prefs.getStringList('customKeywords').join(" OR ");
+      print(keywords);
+      //});
       //keywords = customTerms.join(" OR ");
     }
     print(keywords);
     print("Hello");
-    if(country == "in")
+    if(type == "Country")
     url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&country=$country&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Headlines")
       url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
@@ -41,6 +49,11 @@ class News {
       return null;
     var response = await http.get(url);
     print("Got data");
+    print(jsonDecode(response.body)['articles']);
+
+  if(jsonDecode(response.body)['articles'] == null) {
+    contentAvailable = false;
+  }
 
   var jsonData = jsonDecode(response.body);
   Article article;

@@ -61,6 +61,13 @@ class _SideDrawerState extends State<SideDrawer> {
             ],
           ),
           ListTile(
+            title: Text('Edit Preferences'),
+            onTap: (){
+              Navigator.of(context).pop();
+              Navigator.pushNamed(context, '/custom_selection');
+            },
+          ),
+          ListTile(
             title: Text('Settings'),
             onTap: () {
               Navigator.of(context).pop();

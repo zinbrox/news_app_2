@@ -9,6 +9,7 @@ import 'package:news_app_2/pages/searchPage.dart';
 import 'package:news_app_2/pages/settings_page.dart';
 import 'package:news_app_2/pages/side_nav.dart';
 import 'package:news_app_2/pages/custom_selection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String type = "Headlines"; //For combining into single function
 String country = "";
@@ -35,6 +36,28 @@ class _HomeState extends State<Home> {
     Country_News(),
   ];
 
+  /*
+  String countryValue;
+  String countryName;
+  getCountry() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    countryValue = prefs.getString('defaultCountryCode') ?? null;
+    countryName = prefs.getString('defaultCountry') ?? null;
+  }
+
+   */
+
+  void saveIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('topTabIndex', 0);
+  }
+  @override
+  void initState() {
+    super.initState();
+    //getCountry();
+    saveIndex();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -60,6 +83,10 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+  void getPageIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    final topIndex = prefs.getInt('topTabIndex');
   }
 
   Widget bottomNavigationBarFunction() {
@@ -88,9 +115,14 @@ class _HomeState extends State<Home> {
         ),
       ],
       onTap: (index) {
+        //getCountry();
+        print("_toptabIndex = $_toptabIndex");
         setState(() {
-          if (index == 0)
+
+          if (index == 0 && _toptabIndex==0)
             type = "Headlines";
+          else if (index == 0 && _toptabIndex==1)
+            type = "Country";
           else if (index == 1)
             type = "Custom";
           else if (index == 2)
@@ -118,6 +150,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             Text(
+              //countryName.toString(),
               "India",
               style: GoogleFonts.getFont(
                 "Oswald",
@@ -128,8 +161,15 @@ class _HomeState extends State<Home> {
           onTap: (index) {
             print("TopTab pressed");
             setState(() {
+
+            });
+            //getCountry();
+            setState(() {
               print(index);
-              if (index == 1) country = "in";
+              type = "Country";
+              if (index == 1) {
+                country = "in";
+              }
               _toptabIndex = index;
             });
             print(country);

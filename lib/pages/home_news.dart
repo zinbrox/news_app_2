@@ -21,7 +21,8 @@ class Home_News extends StatefulWidget {
 // ignore: camel_case_types
 class _Home_NewsState extends State<Home_News> {
   List<Article> newslist = new List<Article>();
-  bool _loading;
+  bool contentAvailable = true;
+  bool _loading = true;
   final firestoreInstance = FirebaseFirestore.instance;
 
   getNews() async {
@@ -29,6 +30,7 @@ class _Home_NewsState extends State<Home_News> {
     News news = News();
     await news.getNews();
     newslist = news.news_articles;
+    contentAvailable = news.contentAvailable;
     print("Back in original getNews()");
     setState(() {});
   }
@@ -38,9 +40,15 @@ class _Home_NewsState extends State<Home_News> {
     print("In initState()");
     setState(() {});
     super.initState();
-    setState(() {});
+    setState(() {
+      _loading = true;
+    });
     getNews();
     country = "";
+    //type="";
+    setState(() {
+      //_loading = false;
+    });
     setState(() {
       _loading = false;
     });
@@ -53,127 +61,151 @@ class _Home_NewsState extends State<Home_News> {
 
   @override
   Widget build(BuildContext context) {
-
     final RenderBox box = context.findRenderObject();
 
     return Scaffold(
       appBar: appBarReturn(),
       body: _loading
           ? Center(
-              child: CircularProgressIndicator(),
-            )
+        child: CircularProgressIndicator(),
+      )
+          : !contentAvailable
+          ? SafeArea(
+        child: Center(
+            child: Text(
+              "Uh-Oh, looks like you haven't added any Preferences.\nGo to SideBar -> Edit Preferences to customise the results of this page.",
+              style: GoogleFonts.getFont(
+                  "Oswald", fontSize: 20),)),
+      )
           : Container(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child: ListView.builder(
-                  itemCount: newslist.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/article_view',
-                            arguments:
-                                ScreenArguments(newslist[index].articleURL));
-                      },
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        elevation: 5.0,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15.0),
-                              child: FadeInImage.assetNetwork(
-                                  placeholder: 'assets/LoadingGif.gif',
-                                  imageErrorBuilder: (BuildContext context, Object exception, StackTrace stackTrace){
-                                    return Column(
-                                      children: [
-                                        Text("Couldn't Load Image"),
-                                      ],
-                                    );
-                                  },
-                                  image: newslist[index].imageURL),
-                            ),
-                            Text(
-                              newslist[index].title,
-                              style: GoogleFonts.getFont(
-                                'Oswald',
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Text(
-                              newslist[index].description,
-                              style: GoogleFonts.getFont(
-                                'Roboto',
-                                fontSize: 15.0,
-
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  DateFormat('kk:mm dd-MM-yyyy')
-                                      .format(newslist[index].publishedDate),
-                                  style: GoogleFonts.getFont('Roboto'),
-                                ),
-                                PopupMenuButton(
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      value: 1,
-                                      child: ListTile(leading: Icon(Icons.bookmark), title: Text("Bookmark"),),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 2,
-                                      child: ListTile(leading: Icon(Icons.share), title: Text("Share"),),
-                                    ),
-                                  ],
-                                  onSelected: (value) {
-                                    print("value:$value");
-                                    if(value==1) {
-                                      var firebaseUser = FirebaseAuth.instance
-                                          .currentUser;
-                                      firestoreInstance.collection("users").doc(
-                                          firebaseUser.uid).collection(
-                                          "bookmarks").add(
-                                          {
-                                            "pageTitle": newslist[index].title,
-                                            "description": newslist[index]
-                                                .description,
-                                            "articleURL": newslist[index]
-                                                .articleURL,
-                                            "date": newslist[index]
-                                                .publishedDate,
-                                            "imageURL": newslist[index]
-                                                .imageURL,
-                                          }).then((_) {
-                                        print("success!");
-                                      });
-                                    }
-                                    else if(value==2){
-                                      String text = "Check out this Article: \n" + newslist[index].title + "\n URL: " + newslist[index].articleURL;
-                                      Share.share(text, sharePositionOrigin: box.localToGlobal(Offset.zero)&box.size);
-                                  }
-                                  },
-                                ),
-                              ],
-                            ),
-                            const Divider(
-                              color: Colors.white,
-                              height: 20,
-                              thickness: 3,
-                              indent: 00,
-                              endIndent: 0,
-                            ),
-                          ],
+        padding: EdgeInsets.symmetric(horizontal: 5),
+        child: ListView.builder(
+            itemCount: newslist.length,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/article_view',
+                      arguments: ScreenArguments(
+                          newslist[index].articleURL));
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  elevation: 5.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/LoadingGif.gif',
+                            imageErrorBuilder: (BuildContext context,
+                                Object exception,
+                                StackTrace stackTrace) {
+                              return Column(
+                                children: [
+                                  Text("Couldn't Load Image"),
+                                ],
+                              );
+                            },
+                            image: newslist[index].imageURL),
+                      ),
+                      Text(
+                        newslist[index].title,
+                        style: GoogleFonts.getFont(
+                          'Oswald',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    );
-                  }),
-            ),
+                      Text(
+                        newslist[index].description,
+                        style: GoogleFonts.getFont(
+                          'Roboto',
+                          fontSize: 15.0,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            DateFormat('kk:mm dd-MM-yyyy').format(
+                                newslist[index].publishedDate),
+                            style: GoogleFonts.getFont('Roboto'),
+                          ),
+                          PopupMenuButton(
+                            itemBuilder: (context) =>
+                            [
+                              PopupMenuItem(
+                                value: 1,
+                                child: ListTile(
+                                  leading: Icon(Icons.bookmark),
+                                  title: Text("Bookmark"),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: ListTile(
+                                  leading: Icon(Icons.share),
+                                  title: Text("Share"),
+                                ),
+                              ),
+                            ],
+                            onSelected: (value) {
+                              print("value:$value");
+                              if (value == 1) {
+                                var firebaseUser =
+                                    FirebaseAuth.instance.currentUser;
+                                firestoreInstance
+                                    .collection("users")
+                                    .doc(firebaseUser.uid)
+                                    .collection("bookmarks")
+                                    .add({
+                                  "pageTitle": newslist[index].title,
+                                  "description":
+                                  newslist[index].description,
+                                  "articleURL":
+                                  newslist[index].articleURL,
+                                  "date":
+                                  newslist[index].publishedDate,
+                                  "imageURL":
+                                  newslist[index].imageURL,
+                                }).then((_) {
+                                  print("success!");
+                                });
+                              } else if (value == 2) {
+                                String text =
+                                    "Check out this Article: \n" +
+                                        newslist[index].title +
+                                        "\n URL: " +
+                                        newslist[index].articleURL;
+                                Share.share(text,
+                                    sharePositionOrigin:
+                                    box.localToGlobal(
+                                        Offset.zero) &
+                                    box.size);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        color: Colors.white,
+                        height: 20,
+                        thickness: 3,
+                        indent: 00,
+                        endIndent: 0,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ),
     );
   }
 

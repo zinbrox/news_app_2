@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_2/pages/home_news.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Item {
   String term;
@@ -21,6 +22,8 @@ class Custom_Selection extends StatefulWidget {
 class _Custom_SelectionState extends State<Custom_Selection> {
   final firestoreInstance = FirebaseFirestore.instance;
   var firebaseUser =  FirebaseAuth.instance.currentUser;
+  List<String> customList = new List<String>();
+  bool _loading=true;
 
   loadlist() {
     itemList = List();
@@ -44,71 +47,57 @@ class _Custom_SelectionState extends State<Custom_Selection> {
     }
   }
 
+  void getCustomKeywords() async{
+    final prefs = await SharedPreferences.getInstance();
+    var x = prefs.getStringList('customKeywords') ?? null;
+    if(x == null) {
+      prefs.setStringList('customKeywords', customList);
+      print("CUSTOMLIST");
+    }
+    else
+      customList = x;
+  }
+
   @override
   void initState() {
     print("In initState() of Custom_Selection");
-    loadlist();
+    //loadlist();
     super.initState();
+
+    getCustomKeywords();
+    print(customList);
+    //customList = ["Hello","Hi","Test"];
+    print(customList);
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _loading ? CircularProgressIndicator()
+        : Scaffold(
       appBar: AppBar(
         title: Text("Preferences"),
         centerTitle: true,
       ),
       body: Container(
-        child: customReturn(),
-      ),
-      /*Column(
-        children: <Widget>[
-          Expanded(
-            child: GridView.builder(
-                itemCount: itemList.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 4.0,
-                  mainAxisSpacing: 4.0,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return GridItem(
-                    item: itemList[index],
-                    isSelected: (bool value) {
-                      setState(() {
-                        if (value) {
-                          selectedTerms.add(itemList[index]);
-                          customTerms.add(itemList[index].term);
-                        }
-                        else {
-                          selectedTerms.remove(itemList[index]);
-                          customTerms.remove(itemList[index].term);
-                        }
-                      });
-                    },
-                    key: Key(itemList[index].rank.toString()),
+        child: StreamBuilder(
+        stream: firestoreInstance.collection("preferences").doc("keywords").snapshots(),
+        builder: (context, snapshot) {
+          if(!snapshot.hasData)
+            return CircularProgressIndicator();
+          else
+          return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, mainAxisSpacing: 4.0, crossAxisSpacing: 4.0),
+              itemCount: snapshot.data['custom'].length,
+              itemBuilder: (BuildContext context, int index) {
+                var orderData = snapshot.data;
+                return GestureDetector(
+                  onTap: () async {
 
-                  );
-                }),
-          ),
-        ],
-      ),
-      */
-    );
-  }
-
-  Widget customReturn() {
-    return StreamBuilder(
-      stream: firestoreInstance.collection("preferences").doc("keywords").snapshots(),
-      builder: (context, snapshot) {
-        return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, mainAxisSpacing: 4.0, crossAxisSpacing: 4.0),
-            itemCount: snapshot.data['custom'].length,
-            itemBuilder: (BuildContext context, int index) {
-              var orderData = snapshot.data;
-              return GestureDetector(
-                onTap: () async {
+                    /*
                   bool docExists = await checkIfDocExists();
                   if(!docExists)
                     {
@@ -140,7 +129,7 @@ class _Custom_SelectionState extends State<Custom_Selection> {
                         //customTerms.add(orderData['custom'][index]);
                       }
                   });
-                  /*
+
                   if (customTerms.contains(orderData.data()['custom']))
                     customTerms.remove(orderData.data()['custom']);
                   else if (!customTerms.contains(orderData.data()['custom']))
@@ -148,32 +137,51 @@ class _Custom_SelectionState extends State<Custom_Selection> {
                   print(customTerms);
 
                    */
-                  print(orderData['custom']);
-                  setState(() {
+                    //print(orderData['custom']);
 
-                  });
-                },
-                child: Stack(
-                  children: <Widget>[
-                    Text(orderData['custom'][index]),
-                    customTerms.contains(orderData.data()['custom'])
-                        ? Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.check_circle,
+                    print(customList);
+
+                    final prefs = await SharedPreferences.getInstance();
+                    if(customList.contains(orderData['custom'][index])) {
+                      customList.remove(orderData['custom'][index]);
+                      prefs.remove('customKeywords');
+                      prefs.setStringList('customKeywords', customList);
+                    }
+                    else {
+                      customList.add(orderData['custom'][index]);
+                      prefs.remove('customKeywords');
+                      prefs.setStringList('customKeywords', customList);
+                    }
+
+                    setState(() {
+
+                    });
+                  },
+                  child: Stack(
+                    children: <Widget>[
+                      Text(orderData['custom'][index]),
+                      customList.length > 0 && customList.contains(orderData['custom'][index])==true
+                          ?  Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.check_circle,
+                          ),
                         ),
-                      ),
-                    )
-                        : Container(),
-                  ],
-                ),
-              );
-            });
-      },
+                      )
+                          : Container(),
+                    ],
+                  ),
+                );
+              });
+        },
+      ),
+      ),
     );
   }
+
+
 }
 
 class GridItem extends StatefulWidget {

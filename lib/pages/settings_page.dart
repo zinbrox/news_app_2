@@ -7,6 +7,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_2/blocs/color_styles.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:news_app_2/pages/home.dart';
+
+/*
+class ListItem {
+  String code;
+  String country;
+
+  ListItem(this.code, this.country);
+}
+List<ListItem> _dropdownItems = [
+  ListItem("in", "India"),
+  ListItem("ar", "Argentina"),
+  ListItem("at", "Austria"),
+  ListItem("de", "Germany"),
+  ListItem("en", "Third Item"),
+  ListItem("us", "Fourth Item"),
+  ListItem("ae", "U.A.E."),
+];
+String hello="Hello";
+
+ */
 
 class Settings_Page extends StatefulWidget {
   @override
@@ -33,6 +55,53 @@ class _Settings_PageState extends State<Settings_Page> {
     'Military',
     'Food',
   ];
+  /*
+  List<DropdownMenuItem<ListItem>> _dropdownMenuItems;
+  ListItem _selectedItem;
+  List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
+    List<DropdownMenuItem<ListItem>> items = List();
+    for (ListItem listItem in listItems) {
+      items.add(
+        DropdownMenuItem(
+          child: Text(listItem.country),
+          value: listItem,
+        ),
+      );
+    }
+    return items;
+  }
+
+  getStringValuesSF() async {
+    print("In getStringValuesSF");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    String stringValue = await prefs.getString('defaultCountryCode') ?? null;
+    int index;
+    for(var i in _dropdownMenuItems)
+      if(i.value.code == stringValue){
+        index = _dropdownMenuItems.indexOf(i);
+        break;
+      }
+    print(stringValue);
+    _selectedItem = stringValue==null ?  _dropdownMenuItems[0].value : _dropdownMenuItems[index].value;
+    setState(() {
+    });
+  }
+
+   */
+
+  void initState() {
+    super.initState();
+    //_dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
+    print("In initState() of Settings Page");
+    //getStringValuesSF();
+    print("Back in initState()");
+    setState(() {
+
+    });
+  }
+  //List<String> defaultCountry = ["France","Germany","India","Italy"];
+  //String dropdownValue;
 
 
   @override
@@ -76,16 +145,26 @@ class _Settings_PageState extends State<Settings_Page> {
                 ),
               ],
             ),
+            /*
             Row(
-              children: <Widget>[
-                GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/custom_selection');
-                    },
-                    child: Text("Edit Article Preferences")),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Default Country"),
+                DropdownButton<ListItem>(
+                  value: _selectedItem,
+                  onChanged: (value){
+                    setState((){
+                      _selectedItem = value;
+                      print(_selectedItem.code);
+                      print(_selectedItem.country);
+                      addStringToSF();
+                    });
+                  },
+                  items: _dropdownMenuItems,
+                ),
               ],
             ),
-            Text("Default Country"),
+            */
             Text("Custom Notifications"),
             RaisedButton(
               child: Text("FireStore PLS DONT TOUCH"),
@@ -146,4 +225,12 @@ class _Settings_PageState extends State<Settings_Page> {
       ),
     );
   }
+  /*
+  addStringToSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("defaultCountryCode", _selectedItem.code);
+    prefs.setString("defaultCountry", _selectedItem.country);
+  }
+
+   */
 }
