@@ -13,6 +13,7 @@ import 'package:news_app_2/pages/custom_selection.dart';
 import 'package:news_app_2/pages/settings_page.dart';
 import 'package:news_app_2/pages/splash_screen.dart';
 import 'package:news_app_2/pages/feedback_page.dart';
+import 'package:news_app_2/pages/notifications_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,7 +43,7 @@ class _MyAppState extends State<MyApp>{
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-            initialRoute: '/splash',
+            initialRoute: '/notifications',
             routes: {
               '/splash':(context) => Splash(),
               '/home':(context) => Home(),
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp>{
               '/bookmark':(context) => Bookmark(),
               '/custom_selection':(context) => Custom_Selection(),
               '/feedback':(context) => FeedbackPage(),
+              '/notifications':(context) => LocalNotificationsScreen(),
             },
           );
         },
