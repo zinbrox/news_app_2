@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:news_app_2/plugins/notificationsPlugin.dart';
+import 'package:news_app_2/pages/article_view.dart';
+
 
 class LocalNotificationsScreen extends StatefulWidget {
   @override
@@ -65,5 +67,9 @@ class _LocalNotificationsScreenState extends State<LocalNotificationsScreen> {
     );
   }
   onNotificationInLowerVersions(ReceivedNotification receivedNotification) {}
-  onNotificationClick(String payload) {}
+  Future onNotificationClick(String payload) {
+    print("Pressed Notification");
+    print("Payload: $payload");
+    Navigator.pushNamed(context, '/article_view',arguments: ScreenArguments(payload));
+  }
 }

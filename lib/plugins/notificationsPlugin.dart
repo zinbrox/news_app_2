@@ -1,12 +1,79 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:news_app_2/pages/article_view.dart';
 import 'dart:io' show File, Platform;
 import 'package:rxdart/subjects.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+
+class ArticleNotification {
+  String title;
+  String description;
+  String imageURL;
+  String articleURL;
+  DateTime date;
+  ArticleNotification();
+
+  ArticleNotification.fromJson(Map<String, dynamic> json)
+    : title = json['title'],
+      description = json['description'],
+      imageURL = json['imageURL'],
+      articleURL = json['articleURL'],
+      date = json['date'];
+
+  Map<String, dynamic> toJson() => {
+    'title' : title,
+    'description' : description,
+    'imageURL' : imageURL,
+    'articleURL' : articleURL,
+    'date' : date,
+  };
+
+}
+
+class SharedPref {
+  read(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return json.decode(prefs.getString(key));
+  }
+
+  save(String key, value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, json.encode(value));
+  }
+
+  remove(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove(key);
+  }
+}
 
 class NotificationPlugin {
+
+  SharedPref sharedPref =  SharedPref();
+  List<ArticleNotification> user = List<ArticleNotification>();
+  List<ArticleNotification> userLoad = List<ArticleNotification>();
+
+/*
+  loadSharedPrefs() async {
+    try {
+      ArticleNotification user = ArticleNotification.fromJson(await sharedPref.read("user"));
+        userLoad = user;
+    } catch (Excepetion) {
+      // do something
+      print("ArticleNotifcations Empty");
+    }
+  }
+
+ */
+
+
+
+
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final BehaviorSubject<ReceivedNotification>
   didReceivedLocalNotificationSubject =
@@ -63,25 +130,35 @@ class NotificationPlugin {
   setOnNotificationClick(Function onNotificationClick) async {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String payload) async {
-          //onNotificationClick(payload);
-
+          onNotificationClick(payload);
         });
   }
+
 
   Future<void> showNotification() async {
     var androidChannelSpecifics = AndroidNotificationDetails(
       'CHANNEL_ID',
       'CHANNEL_NAME',
       "CHANNEL_DESCRIPTION",
-      importance: Importance.high,
-      priority: Priority.high,
+      importance: Importance.max,
+      priority: Priority.max,
       playSound: true,
-      timeoutAfter: 5000,
-      styleInformation: DefaultStyleInformation(true, true),
+      //timeoutAfter: 5000,
+      styleInformation: BigTextStyleInformation(''),
+      //styleInformation: DefaultStyleInformation(true, true),
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics =
     NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
+    await getCustomKeywords();
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      title,
+      description, //null
+      platformChannelSpecifics,
+      payload: 'New Payload',
+    );
+    /*
     await flutterLocalNotificationsPlugin.show(
       0,
       'Test Title',
@@ -89,6 +166,8 @@ class NotificationPlugin {
       platformChannelSpecifics,
       payload: 'New Payload',
     );
+
+     */
   }
 
   /*
@@ -116,18 +195,46 @@ class NotificationPlugin {
 
    */
 
+  getArticleNotifications() {
+
+  }
+  String keywords;
+  String url;
+  String title;
+  String description;
+  String articleURL;
+  String imageURL;
+  void getCustomKeywords() async{
+    final prefs = await SharedPreferences.getInstance();
+    keywords = prefs.getStringList('customKeywords').join(" OR ");
+    print(keywords);
+    url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+    var response = await http.get(url);
+    var jsonData = jsonDecode(response.body);
+    if(jsonData['status']=='ok') {
+      title = jsonData['articles'][0]['title'];
+      description = jsonData['articles'][0]['description'];
+      articleURL = jsonData['articles'][0]['url'];
+      imageURL = jsonData['articles'][0]['urlToImage'];
+    }
+
+
+  }
+
 
   Future<void> showNotificationWithAttachment() async {
+    var time = Time(18,0,0);
+    await getCustomKeywords();
     var attachmentPicturePath = await _downloadAndSaveFile(
-        'https://via.placeholder.com/800x200', 'attachment_img.jpg');
+        imageURL, 'attachment_img.jpg');
     var iOSPlatformSpecifics = IOSNotificationDetails(
       attachments: [IOSNotificationAttachment(attachmentPicturePath)],
     );
     var bigPictureStyleInformation = BigPictureStyleInformation(
       FilePathAndroidBitmap(attachmentPicturePath),
-      contentTitle: '<b>Attached Image</b>',
+      contentTitle: '<b>$title</b>',
       htmlFormatContentTitle: true,
-      summaryText: 'Test Image',
+      //summaryText: description,
       htmlFormatSummaryText: true,
     );
     var androidChannelSpecifics = AndroidNotificationDetails(
@@ -140,28 +247,30 @@ class NotificationPlugin {
     );
     var notificationDetails =
     NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
-    /*
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Title with attachment',
-      'Body with Attachment',
+      title,
+      null, //null
+      //time,
       notificationDetails,
+      payload: articleURL,
     );
-
-     */
+     /*
     await flutterLocalNotificationsPlugin.periodicallyShow(
       0,
       'Repeating Test Title',
       'Repeating Test Body',
-      RepeatInterval.everyMinute,
+      RepeatInterval.daily,
       notificationDetails,
       payload: 'Test Payload',
     );
+    */
   }
 
   _downloadAndSaveFile(String url, String fileName) async {
     var directory = await getApplicationDocumentsDirectory();
     var filePath = '${directory.path}/$fileName';
+    print(filePath);
     var response = await http.get(url);
     var file = File(filePath);
     await file.writeAsBytes(response.bodyBytes);
