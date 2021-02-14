@@ -12,6 +12,7 @@ import 'package:news_app_2/pages/bookmarks.dart';
 import 'package:news_app_2/pages/custom_selection.dart';
 import 'package:news_app_2/pages/settings_page.dart';
 import 'package:news_app_2/pages/splash_screen.dart';
+import 'package:news_app_2/pages/feedback_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp>{
               '/loginPage':(context) => LoginPage(),
               '/bookmark':(context) => Bookmark(),
               '/custom_selection':(context) => Custom_Selection(),
+              '/feedback':(context) => FeedbackPage(),
             },
           );
         },

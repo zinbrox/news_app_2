@@ -94,6 +94,7 @@ class _SideDrawerState extends State<SideDrawer> {
             title: Text('Feedback and Help'),
             onTap: () {
             Navigator.of(context).pop();
+            Navigator.pushNamed(context, '/feedback');
             },
           ),
         ],
