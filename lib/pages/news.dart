@@ -21,17 +21,9 @@ class News {
     var firebaseUser =  FirebaseAuth.instance.currentUser;
     if(type=="Custom") {
       print("In Custom");
-      /*
-      await firestoreInstance.collection("userPreferences").doc(firebaseUser.uid).get().then((result) {
-        print(result.data()['custom']);
-          keywords = result.data()['custom'].join(" OR ");
-
-       */
       final prefs = await SharedPreferences.getInstance();
       keywords = prefs.getStringList('customKeywords').join(" OR ");
       print(keywords);
-      //});
-      //keywords = customTerms.join(" OR ");
     }
     print(keywords);
     print("Hello");

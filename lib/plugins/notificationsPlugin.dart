@@ -10,70 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class ArticleNotification {
-  String title;
-  String description;
-  String imageURL;
-  String articleURL;
-  DateTime date;
-  ArticleNotification();
-
-  ArticleNotification.fromJson(Map<String, dynamic> json)
-    : title = json['title'],
-      description = json['description'],
-      imageURL = json['imageURL'],
-      articleURL = json['articleURL'],
-      date = json['date'];
-
-  Map<String, dynamic> toJson() => {
-    'title' : title,
-    'description' : description,
-    'imageURL' : imageURL,
-    'articleURL' : articleURL,
-    'date' : date,
-  };
-
-}
-
-class SharedPref {
-  read(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    return json.decode(prefs.getString(key));
-  }
-
-  save(String key, value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, json.encode(value));
-  }
-
-  remove(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove(key);
-  }
-}
-
 class NotificationPlugin {
-
-  SharedPref sharedPref =  SharedPref();
-  List<ArticleNotification> user = List<ArticleNotification>();
-  List<ArticleNotification> userLoad = List<ArticleNotification>();
-
-/*
-  loadSharedPrefs() async {
-    try {
-      ArticleNotification user = ArticleNotification.fromJson(await sharedPref.read("user"));
-        userLoad = user;
-    } catch (Excepetion) {
-      // do something
-      print("ArticleNotifcations Empty");
-    }
-  }
-
- */
-
-
-
-
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final BehaviorSubject<ReceivedNotification>
   didReceivedLocalNotificationSubject =
@@ -170,30 +107,7 @@ class NotificationPlugin {
      */
   }
 
-  /*
-  Future<void> repeatNotification() async {
-    var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID 3',
-      'CHANNEL_NAME 3',
-      "CHANNEL_DESCRIPTION 3",
-      importance: Importance.high,
-      priority: Priority.high,
-      styleInformation: DefaultStyleInformation(true, true),
-    );
-    var iosChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics =
-    NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-      0,
-      'Repeating Test Title',
-      'Repeating Test Body',
-      RepeatInterval.everyMinute,
-      platformChannelSpecifics,
-      payload: 'Test Payload',
-    );
-  }
 
-   */
 
   getArticleNotifications() {
 

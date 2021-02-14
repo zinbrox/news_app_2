@@ -23,25 +23,6 @@ class _LocalNotificationsScreenState extends State<LocalNotificationsScreen> {
 
     //initializing();
   }
-
-
-  /*
-
-  Future _repeatNotification() async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'repeating channel id',
-        'repeating channel name',
-        'repeating description');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.periodicallyShow(0, 'repeating title',
-        'repeating body', RepeatInterval.EveryMinute, platformChannelSpecifics);
-  }
-
-   */
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

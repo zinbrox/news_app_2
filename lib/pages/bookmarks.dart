@@ -23,6 +23,12 @@ class _BookmarkState extends State<Bookmark> {
   bool _loading=true;
 
 
+  Future<void> refreshPage() async {
+    setState(() {
+
+    });
+  }
+
   @override
   void initState(){
     print("In Bookmarks initState()");
@@ -49,68 +55,71 @@ class _BookmarkState extends State<Bookmark> {
     DarkThemeProvider _themeChanger = Provider.of<DarkThemeProvider>(context);
     bool isDark = _themeChanger.darkTheme;
 
-    return StreamBuilder(
-      stream: firestoreInstance.collection("users").doc(firebaseUser.uid).collection("bookmarks").orderBy('date', descending: true).snapshots(),
-      builder: (context, snapshot){
-              return snapshot.hasData ?
-              ListView.builder(
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (context, index){
-                    DocumentSnapshot orderData = snapshot.data.docs[index];
-                    return GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/article_view',
-                      arguments:
-                      ScreenArguments(orderData.data()['articleURL']));
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  elevation: 5.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: FadeInImage.assetNetwork(
-                            placeholder: 'assets/LoadingGif.gif',
-                            image: orderData.data()['imageURL']),
-                      ),
-                      Text(
-                        orderData.data()['pageTitle'],
-                        style: GoogleFonts.getFont(
-                          'Oswald',
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500,
+    return RefreshIndicator(
+      onRefresh: refreshPage,
+      child: StreamBuilder(
+        stream: firestoreInstance.collection("users").doc(firebaseUser.uid).collection("bookmarks").orderBy('date', descending: true).snapshots(),
+        builder: (context, snapshot){
+                return snapshot.hasData ?
+                ListView.builder(
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (context, index){
+                      DocumentSnapshot orderData = snapshot.data.docs[index];
+                      return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/article_view',
+                        arguments:
+                        ScreenArguments(orderData.data()['articleURL']));
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    elevation: 5.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: FadeInImage.assetNetwork(
+                              placeholder: 'assets/LoadingGif.gif',
+                              image: orderData.data()['imageURL']),
                         ),
-                      ),
-                      Text(
-                        orderData.data()['description'],
-                        style: GoogleFonts.getFont(
-                          'Roboto',
-                          fontSize: 15.0,
-                          color: isDark ? Colors.grey[200] : Colors.grey[900],
+                        Text(
+                          orderData.data()['pageTitle'],
+                          style: GoogleFonts.getFont(
+                            'Oswald',
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      Text(
-                        DateFormat('kk:mm dd-MM-yyyy').format(orderData.data()['date'].toDate()),
-                      ),
-                      const Divider(
-                        color: Colors.white,
-                        height: 20,
-                        thickness: 3,
-                        indent: 00,
-                        endIndent: 0,
-                      ),
-                    ],
+                        Text(
+                          orderData.data()['description'],
+                          style: GoogleFonts.getFont(
+                            'Roboto',
+                            fontSize: 15.0,
+                            color: isDark ? Colors.grey[200] : Colors.grey[900],
+                          ),
+                        ),
+                        Text(
+                          DateFormat('kk:mm dd-MM-yyyy').format(orderData.data()['date'].toDate()),
+                        ),
+                        const Divider(
+                          color: Colors.white,
+                          height: 20,
+                          thickness: 3,
+                          indent: 00,
+                          endIndent: 0,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
 
-            }) : Center(child: CircularProgressIndicator());
-      },
+              }) : Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 }

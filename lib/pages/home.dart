@@ -5,10 +5,7 @@ import 'package:news_app_2/pages/bookmarks.dart';
 import 'package:news_app_2/pages/category_selection.dart';
 import 'package:news_app_2/pages/home_news.dart';
 import 'package:news_app_2/pages/news.dart';
-import 'package:news_app_2/pages/searchPage.dart';
-import 'package:news_app_2/pages/settings_page.dart';
 import 'package:news_app_2/pages/side_nav.dart';
-import 'package:news_app_2/pages/custom_selection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String type = "Headlines"; //For combining into single function
@@ -36,17 +33,6 @@ class _HomeState extends State<Home> {
     Country_News(),
   ];
 
-  /*
-  String countryValue;
-  String countryName;
-  getCountry() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    countryValue = prefs.getString('defaultCountryCode') ?? null;
-    countryName = prefs.getString('defaultCountry') ?? null;
-  }
-
-   */
-
   void saveIndex() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('topTabIndex', 0);
@@ -54,7 +40,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    //getCountry();
     saveIndex();
   }
 
@@ -180,28 +165,5 @@ class _HomeState extends State<Home> {
         ),
       );
 
-    Widget drawerReturn() {
-      return Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text(
-                'Side menu',
-                style: TextStyle(fontSize: 25),
-              ),
-              decoration: BoxDecoration(),
-            ),
-            ListTile(
-              title: Text('Bookmarks'),
-              onTap: () => {},
-            ),
-            ListTile(
-              title: Text('Feedback and Help'),
-            ),
-          ],
-        ),
-      );
-    }
   }
 }
