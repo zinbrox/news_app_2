@@ -35,10 +35,11 @@ class News {
     }
     print(keywords);
     print("Hello");
-    if(type == "Country")
+    print("type = $type");
+    if(type == "Headlines")
+    url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+    else if(type == "Country")
     url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&country=$country&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
-    else if(type == "Headlines")
-      url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type=="Custom")
       url = "https://newsapi.org/v2/everything?q=$keywords&sortBy=publishedAt&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     else if(type == "Search")

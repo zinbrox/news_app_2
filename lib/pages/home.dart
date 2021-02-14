@@ -166,9 +166,12 @@ class _HomeState extends State<Home> {
             //getCountry();
             setState(() {
               print(index);
-              type = "Country";
+              if(index==0) {
+                type="Headlines";
+              }
               if (index == 1) {
                 country = "in";
+                type = "Country";
               }
               _toptabIndex = index;
             });

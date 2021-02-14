@@ -46,7 +46,7 @@ class _Home_NewsState extends State<Home_News> {
       _loading = true;
     });
     getNews();
-    country = "";
+    //country = "";
     //type="";
     setState(() {
       //_loading = false;
