@@ -12,6 +12,7 @@ import 'package:news_app_2/pages/settings_page.dart';
 import 'package:news_app_2/pages/splash_screen.dart';
 import 'package:news_app_2/pages/feedback_page.dart';
 import 'package:news_app_2/pages/notifications_page.dart';
+import 'package:news_app_2/pages/easterEgg.dart';
 
 void main() => runApp(MyApp());
 
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp>{
               '/custom_selection':(context) => Custom_Selection(),
               '/feedback':(context) => FeedbackPage(),
               '/notifications':(context) => LocalNotificationsScreen(),
+              '/easterEgg':(context) => EasterEgg(),
             },
           );
         },

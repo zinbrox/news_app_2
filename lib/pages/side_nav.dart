@@ -70,10 +70,12 @@ class _SideDrawerState extends State<SideDrawer> {
                   alignment: Alignment.centerLeft,
                   child: GestureDetector(
                     onTap: (){
-                      print("Tapped");
+                      print("Tapped Name");
                       count++;
                       if(count==10){
                         count=0;
+                        Navigator.of(context).pop();
+                        Navigator.pushNamed(context, '/easterEgg');
                       }
 
                     },
