@@ -86,7 +86,8 @@ class NotificationPlugin {
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics =
-    NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
+    NotificationDetails(
+        android: androidChannelSpecifics, iOS: iosChannelSpecifics);
     await getCustomKeywords();
     await flutterLocalNotificationsPlugin.show(
       0,
@@ -108,35 +109,44 @@ class NotificationPlugin {
   }
 
 
-
-  getArticleNotifications() {
-
-  }
   String keywords;
   String url;
   String title;
   String description;
   String articleURL;
   String imageURL;
-  void getCustomKeywords() async{
+
+  void getCustomKeywords() async {
     final prefs = await SharedPreferences.getInstance();
     keywords = prefs.getStringList('customKeywords').join(" OR ");
     print(keywords);
-    url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&pageSize=1&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+    url =
+    "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&pageSize=1&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     var response = await http.get(url);
     var jsonData = jsonDecode(response.body);
-    if(jsonData['status']=='ok') {
+    if (jsonData['status'] == 'ok') {
       title = jsonData['articles'][0]['title'];
       articleURL = jsonData['articles'][0]['url'];
       imageURL = jsonData['articles'][0]['urlToImage'];
     }
+  }
 
-
+  _downloadAndSaveFile(String url, String fileName) async {
+    var directory = await getApplicationDocumentsDirectory();
+    var filePath = '${directory.path}/$fileName';
+    print(filePath);
+    var response = await http.get(url);
+    var file = File(filePath);
+    await file.writeAsBytes(response.bodyBytes);
+    return filePath;
   }
 
 
   Future<void> showNotificationWithAttachment() async {
-    var time = Time(18,0,0);
+    Time time1 = Time(8,0,0);
+    Time time2 = Time(12,0,0);
+    Time time3 = Time(16,0,0);
+    Time time4 = Time(20,0,0);
     await getCustomKeywords();
     var attachmentPicturePath = await _downloadAndSaveFile(
         imageURL, 'attachment_img.jpg');
@@ -158,47 +168,68 @@ class NotificationPlugin {
       priority: Priority.high,
       styleInformation: bigPictureStyleInformation,
     );
+
     var notificationDetails =
-    NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
+    NotificationDetails(
+        android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
+      await flutterLocalNotificationsPlugin.showDailyAtTime(
+        0,
+        title,
+        null, //null
+        time1,
+        //RepeatInterval.everyMinute,
+        notificationDetails,
+        payload: articleURL,
+      );
+
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-      0,
+      1,
       title,
       null, //null
-      time,
+      time2,
       //RepeatInterval.everyMinute,
       notificationDetails,
       payload: articleURL,
     );
+    await flutterLocalNotificationsPlugin.showDailyAtTime(
+      2,
+      title,
+      null, //null
+      time3,
+      //RepeatInterval.everyMinute,
+      notificationDetails,
+      payload: articleURL,
+    );
+    await flutterLocalNotificationsPlugin.showDailyAtTime(
+      3,
+      title,
+      null, //null
+      time4,
+      //RepeatInterval.everyMinute,
+      notificationDetails,
+      payload: articleURL,
+    );
+
   }
 
-  _downloadAndSaveFile(String url, String fileName) async {
-    var directory = await getApplicationDocumentsDirectory();
-    var filePath = '${directory.path}/$fileName';
-    print(filePath);
-    var response = await http.get(url);
-    var file = File(filePath);
-    await file.writeAsBytes(response.bodyBytes);
-    return filePath;
+    Future<void> cancelAllNotification() async {
+      await flutterLocalNotificationsPlugin.cancelAll();
+    }
   }
 
-  Future<void> cancelAllNotification() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
-  }
-}
+  NotificationPlugin notificationPlugin = NotificationPlugin._();
 
-NotificationPlugin notificationPlugin = NotificationPlugin._();
-
-class ReceivedNotification {
+  class ReceivedNotification {
   final int id;
   final String title;
   final String body;
   final String payload;
 
   ReceivedNotification({
-    @required this.id,
-    @required this.title,
-    @required this.body,
-    @required this.payload,
+  @required this.id,
+  @required this.title,
+  @required this.body,
+  @required this.payload,
   });
-}
+  }
 
