@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp>{
               '/home_news':(context) => Home_News(),
               '/article_view':(context) => Article_View(),
               '/category_selection':(context) => Category_Selection(),
-              '/settings':(context) => Settings_Page(),
+              //'/settings':(context) => Settings_Page(),
               '/loginPage':(context) => LoginPage(),
               '/bookmark':(context) => Bookmark(),
               '/custom_selection':(context) => Custom_Selection(),

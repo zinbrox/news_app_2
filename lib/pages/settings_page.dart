@@ -1,5 +1,5 @@
 //import 'dart:html';
-
+/*
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -124,3 +124,5 @@ class _Settings_PageState extends State<Settings_Page> {
     Navigator.pushNamed(context, '/article_view',arguments: ScreenArguments(payload));
   }
 }
+
+ */

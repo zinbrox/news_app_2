@@ -94,7 +94,7 @@ class NotificationPlugin {
       title,
       description, //null
       platformChannelSpecifics,
-      payload: 'New Payload',
+      payload: articleURL,
     );
     /*
     await flutterLocalNotificationsPlugin.show(

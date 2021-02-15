@@ -118,6 +118,7 @@ class _SideDrawerState extends State<SideDrawer> {
             padding: const EdgeInsets.only(left: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Text("Notifications", style: GoogleFonts.getFont("Oswald", fontSize: 20),),
                 Switch(
@@ -130,8 +131,8 @@ class _SideDrawerState extends State<SideDrawer> {
                     prefs.setBool('notificationsSwitch', notificationsSwitch);
                     notificationsSwitch ? await notificationPlugin.showNotificationWithAttachment() : notificationPlugin.cancelAllNotification();
                   },
-                  activeColor: Colors.deepPurple,
-                  activeTrackColor: Colors.purpleAccent[400],
+                  activeColor: isSwitched ? Colors.grey[800] : Colors.grey[500],
+                  activeTrackColor: isSwitched ? Colors.white : Colors.black,
                 ),
               ],
             ),
@@ -144,13 +145,6 @@ class _SideDrawerState extends State<SideDrawer> {
             onTap: (){
               Navigator.of(context).pop();
               Navigator.pushNamed(context, '/custom_selection');
-            },
-          ),
-          ListTile(
-            title: Text('Settings', style: GoogleFonts.getFont("Oswald", fontSize: 20),),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.pushNamed(context, '/settings');
             },
           ),
           ListTile(
