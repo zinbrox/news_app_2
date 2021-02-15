@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
           title: Text('Top Headlines'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.article),
+          icon: Icon(Icons.star),
           title: Text('My News'),
         ),
         BottomNavigationBarItem(
