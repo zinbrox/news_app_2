@@ -42,6 +42,10 @@ class _Custom_SelectionState extends State<Custom_Selection> {
       _loading = false;
     });
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

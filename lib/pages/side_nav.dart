@@ -15,6 +15,7 @@ class SideDrawer extends StatefulWidget {
 
 class _SideDrawerState extends State<SideDrawer> {
   bool notificationsSwitch=true;
+  int count;
 
   getNotificationsSwitch() async{
     final prefs = await SharedPreferences.getInstance();
@@ -28,6 +29,7 @@ class _SideDrawerState extends State<SideDrawer> {
   void initState() {
     super.initState();
     print("In initState() of Drawer Page");
+    count=0;
     getNotificationsSwitch();
     print(notificationsSwitch);
     notificationPlugin.setListenerForLowerVersions(onNotificationInLowerVersions);
@@ -38,7 +40,6 @@ class _SideDrawerState extends State<SideDrawer> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -67,8 +68,23 @@ class _SideDrawerState extends State<SideDrawer> {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(firebaseUser.displayName,
-                      style: GoogleFonts.getFont("Oswald", fontSize: 30.0),
+                  child: GestureDetector(
+                    onTap: (){
+                      print("Tapped");
+                      count++;
+                      if(count==10){
+                        count=0;
+                      }
+
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.person),
+                        Text(firebaseUser.displayName,
+                            style: GoogleFonts.getFont("Oswald", fontSize: 20.0),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -92,23 +108,6 @@ class _SideDrawerState extends State<SideDrawer> {
                     return DropdownMenuItem<String>(value: value, child: Text(value),);
                   }).toList(),
                 ),
-
-
-                /*
-                Switch(
-                  value: isSwitched,
-                  onChanged: (value) {
-                    setState(() {
-                      isSwitched = value;
-                      value == false
-                          ? _themeChanger.darkTheme = false
-                          : _themeChanger.darkTheme = true;
-                    });
-                  },
-                  activeColor: Colors.deepPurple,
-                  activeTrackColor: Colors.purpleAccent[400],
-                ),
-                */
               ],
             ),
           ),

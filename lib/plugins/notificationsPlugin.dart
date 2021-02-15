@@ -122,12 +122,11 @@ class NotificationPlugin {
     final prefs = await SharedPreferences.getInstance();
     keywords = prefs.getStringList('customKeywords').join(" OR ");
     print(keywords);
-    url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
+    url = "https://newsapi.org/v2/top-headlines?sortBy=popularity&language=en&pageSize=1&apiKey=fb746a4bae534ed2a5be2393127e2ed8";
     var response = await http.get(url);
     var jsonData = jsonDecode(response.body);
     if(jsonData['status']=='ok') {
       title = jsonData['articles'][0]['title'];
-      description = jsonData['articles'][0]['description'];
       articleURL = jsonData['articles'][0]['url'];
       imageURL = jsonData['articles'][0]['urlToImage'];
     }
@@ -148,7 +147,7 @@ class NotificationPlugin {
       FilePathAndroidBitmap(attachmentPicturePath),
       contentTitle: '<b>$title</b>',
       htmlFormatContentTitle: true,
-      //summaryText: description,
+      //summaryText: title,
       htmlFormatSummaryText: true,
     );
     var androidChannelSpecifics = AndroidNotificationDetails(
@@ -161,24 +160,15 @@ class NotificationPlugin {
     );
     var notificationDetails =
     NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
-    await flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin.showDailyAtTime(
       0,
       title,
       null, //null
-      //time,
+      time,
+      //RepeatInterval.everyMinute,
       notificationDetails,
       payload: articleURL,
     );
-     /*
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-      0,
-      'Repeating Test Title',
-      'Repeating Test Body',
-      RepeatInterval.daily,
-      notificationDetails,
-      payload: 'Test Payload',
-    );
-    */
   }
 
   _downloadAndSaveFile(String url, String fileName) async {

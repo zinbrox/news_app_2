@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_2/pages/home.dart';
 import 'package:news_app_2/pages/home_news.dart';
+import 'dart:math';
 
 List<String> AssetImages = [
-  "assets/Business1.jpeg",
-  "assets/Entertainment.jpg",
-  "assets/General.jpg",
-  "assets/Health1.jpg",
-  "assets/Science.jpg",
-  "assets/Sports.jpg",
-  "assets/Technology.jpg"
+  "assets/Business_Image.jpg",
+  "assets/Entertainment_Image.jpg",
+  "assets/General_Image.jpg",
+  "assets/Health_Image.jpg",
+  "assets/Science_Image.jpg",
+  "assets/Sports_Image.jpg",
+  "assets/Technology_Image.jpg",
+  "assets/Random_Image.jpg"
 ];
 List<String> ImageNames = [
   "Business",
@@ -19,8 +21,10 @@ List<String> ImageNames = [
   "Health",
   "Science",
   "Sports",
-  "Technology"
+  "Technology",
+  "Random"
 ];
+Random rnd = new Random();
 
 class Category_Selection extends StatefulWidget {
   @override
@@ -96,11 +100,16 @@ class _Category_SelectionState extends State<Category_Selection> {
                 shrinkWrap: false,
                 itemCount: AssetImages.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                    crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 0.0, childAspectRatio: 1.5),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: (){
-                      category=ImageNames[index];
+                      int min=0, max=6;
+                      int r = min + rnd.nextInt(max - min);
+                      if(index==7)
+                        category = ImageNames[r];
+                      else
+                        category=ImageNames[index];
                       type="Categories";
                       Navigator.pushNamed(context, '/home_news');
                     },
