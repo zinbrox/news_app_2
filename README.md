@@ -1,4 +1,4 @@
-# news_app_2
+# Posit News App
 
 A Flutter News app using articles from the free tier of NewsAPI.
 https://newsapi.org/
