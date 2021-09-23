@@ -13,7 +13,7 @@ Select the type of news you want to see and your page will be customised for you
 <img src = "https://user-images.githubusercontent.com/53508807/134557448-4a83423a-cfd6-4059-8d8a-fc95726b039f.jpg" width="200">
 
 View specific news categories  
-<img src = "https://user-images.githubusercontent.com/53508807/134557739-e24ae86d-df0a-4795-8b33-5f6a0dea2e1e.jpgg" width="200">
+<img src = "https://user-images.githubusercontent.com/53508807/134557739-e24ae86d-df0a-4795-8b33-5f6a0dea2e1e.jpg" width="200">
 <img src = "https://user-images.githubusercontent.com/53508807/134557956-5ee3bf67-621f-43ea-8b5c-db93400571e0.jpg" width="200">
 
 Save bookmarks and they will be associated with your Google account (can view these bookmarks even logged in from other phones)  
