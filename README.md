@@ -5,6 +5,8 @@ https://newsapi.org/
 Google Firebase used for login and for saving bookmarks    
 
 
+
+
 Get the latest headline news, both international as well as in India  
 <img src = "https://user-images.githubusercontent.com/53508807/134557091-52a3b4de-e6dd-4664-a9a1-79db939b2586.jpg" width="200">
 <img src = "https://user-images.githubusercontent.com/53508807/134557251-5d6e06d2-c4d1-4d5a-9cd6-61386e15fbcb.jpg" width="200">
