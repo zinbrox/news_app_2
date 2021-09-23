@@ -3,9 +3,8 @@
 A Flutter News app using articles from the free tier of NewsAPI.  
 https://newsapi.org/  
 Google Firebase used for login and for saving bookmarks    
-
-
-
+  
+  
 
 Get the latest headline news, both international as well as in India  
 <img src = "https://user-images.githubusercontent.com/53508807/134557091-52a3b4de-e6dd-4664-a9a1-79db939b2586.jpg" width="200">
