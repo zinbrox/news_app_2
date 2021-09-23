@@ -1,6 +1,6 @@
 # Posit News App
 
-A Flutter News app using articles from the free tier of NewsAPI.  
+A Flutter News app made using articles from the free tier of NewsAPI.  
 https://newsapi.org/  
 Google Firebase used for login and for saving bookmarks    
   
