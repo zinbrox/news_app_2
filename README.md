@@ -1,8 +1,8 @@
 # Posit News App
 
-A Flutter News app using articles from the free tier of NewsAPI.
-https://newsapi.org/
-Google Firebase used for login and for saving bookmarks  
+A Flutter News app using articles from the free tier of NewsAPI.  
+https://newsapi.org/  
+Google Firebase used for login and for saving bookmarks    
 
 
 Get the latest headline news, both international as well as in India  
